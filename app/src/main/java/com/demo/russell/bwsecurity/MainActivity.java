@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -38,7 +39,7 @@ import static java.lang.Math.round;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnPlus,btnTest,btnInc,btnDec;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnPlus,btnTest,btnInc,btnDec,btnReset;
     TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         btnTest = (Button) findViewById(R.id.btnTest);
         btnInc = (Button) findViewById(R.id.buttonInc);
         btnDec = (Button) findViewById(R.id.buttonDec);
+        btnReset = (Button) findViewById(R.id.buttonReset);
 
 
 
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         btnTest.setOnClickListener(RussellClickLister);
         btnInc.setOnClickListener(RussellClickLister);
         btnDec.setOnClickListener(RussellClickLister);
+        btnReset.setOnLongClickListener(AppReset);
 
         tl = (TableLayout) findViewById(R.id.tblLayout);
 
@@ -132,6 +135,32 @@ public class MainActivity extends AppCompatActivity {
         RefreshScreen();
     }
 
+    private View.OnLongClickListener AppReset = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(final View v) {
+            if (v.getId()==R.id.buttonReset){
+                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder
+                        .setTitle("Reset Application")
+                        .setMessage("Are you sure?")
+                        .setIcon(android.R.drawable.ic_delete)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                JobRows_array.clear();
+                                applicationVariables.saveData(v.getContext(), JobRows_array);
+                                RefreshScreen();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+            }
+            return false;
+        }
+    };
 
     private View.OnClickListener RussellClickLister = new View.OnClickListener() {
         @Override
@@ -249,10 +278,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(final View v) {
                     v.setBackgroundColor(Color.RED);
 
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(),AlertDialog.THEME_HOLO_DARK);
                     builder
                             .setTitle("Delete Row: " + (v.getId()+1))
                             .setMessage("Are you sure?")
+                            //.setView()
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {

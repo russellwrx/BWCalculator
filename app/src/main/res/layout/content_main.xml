@@ -527,10 +527,11 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button20"
+                    android:id="@+id/buttonReset"
                     android:text="R"
                     android:layout_weight="1"
-                    android:textSize="@dimen/ButtonText"/>
+                    android:textSize="@dimen/ButtonText"
+                    android:longClickable="true" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
