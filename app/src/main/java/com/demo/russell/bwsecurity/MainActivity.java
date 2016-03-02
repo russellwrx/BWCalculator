@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
-    Double ActionTotal=0.0,ActionOutput=0.0;
+    Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
     Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,FloatAmount=35550.0;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
@@ -186,10 +186,10 @@ public class MainActivity extends AppCompatActivity {
                     RunTest();
                     break;
                 case R.id.buttonInc:
-                    AdjustOutput();
+                    AdjustOutput("inc");
                     break;
                 case R.id.buttonDec:
-                    AdjustOutput();
+                    AdjustOutput("dec");
                     break;
                 default:
                     break;
@@ -198,8 +198,14 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    private void AdjustOutput(){
-
+    private void AdjustOutput(String action){
+        if (action=="inc"){
+            ActionOutput+=5.0;
+        } else {
+            ActionOutput-=5.0;
+        }
+        //txtOutput.setText(Html.fromHtml("Payout: $" + "<font color='#EE0000'><b>"+Output(UserInput, ActionTotal).intValue()+"</b></font>"));
+        txtOutput.setText("Total: " + ActionOutput);
     }
 
     private void RunTest(){
@@ -211,10 +217,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void AddRow() {
 
-        if (ActionTotal!=0) {
+        Log.d("test: ",ActionOutput+" "+ActionTotal);
+        if ((ActionTotal+Double.parseDouble(UserInput))!=0) {
+            Log.d("test: ",ActionOutput+"");
             Row currentRow = new Row();
             currentRow.setAmount(ActionTotal + Double.parseDouble(UserInput));
             currentRow.setPayout(ActionOutput);
+            if (ActionOutput!=ActionOutputOrig)
+                currentRow.setWarning(true);
             JobRows_array.add(currentRow);
             NotesCount();
             applicationVariables.saveData(this, JobRows_array);
@@ -273,7 +283,10 @@ public class MainActivity extends AppCompatActivity {
 
 
             tr.setId(count);
-            tr.setBackgroundColor(Color.GREEN);
+            if (row.getWarinig())
+                tr.setBackgroundColor(Color.GREEN);
+            else
+                tr.setBackgroundColor(Color.YELLOW);
             //tr.setGravity(Gravity.RIGHT);
             tr.setLayoutParams(lp);
 
@@ -359,6 +372,7 @@ public class MainActivity extends AppCompatActivity {
                     if (UserInput.length()-UserInput.indexOf(".")<3)  // Accept only two digits after decimal point
                         UserInput = UserInput + CalcInput;
                 }
+
             }
         }
 
@@ -373,11 +387,13 @@ public class MainActivity extends AppCompatActivity {
         else if (MarkupStr=="") {
             markup = UserInput;
             minput = String.valueOf(ActionTotal + Double.parseDouble(UserInput));
+        //    ActionTotal=ActionTotal + Double.parseDouble(UserInput);
         } else {
             markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
             minput = String.valueOf(ActionTotal + Double.parseDouble(UserInput));
-        }
 
+        }
+        ActionOutput=ActionTotal + Double.parseDouble(UserInput);
         txtInput.setText(UserInput);
         txtOutput.setText(Html.fromHtml("Payout: $" + "<font color='#EE0000'><b>"+Output(UserInput, ActionTotal).intValue()+"</b></font>"));
         txtMarkup.setText(Html.fromHtml(markup));
@@ -444,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
             ActionOutput = value;
 
         //return String.valueOf(ActionOutput);
+        ActionOutputOrig=ActionOutput;
         return ActionOutput;
     }
 
