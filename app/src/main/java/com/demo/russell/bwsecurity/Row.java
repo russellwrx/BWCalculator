@@ -42,6 +42,10 @@ public class Row {
     public boolean getWarinig(){
         return this.Warning;
     }
+    public String getPayoutString(){
+        int intconv = (int) this.Payout;
+        return  intconv+"";
+    }
 //    public void setNotes1k(int amount){
 //        this.notes1k=amount;
 //    }

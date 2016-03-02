@@ -217,14 +217,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void AddRow() {
 
-        Log.d("test: ",ActionOutput+" "+ActionTotal);
+        //Log.d("test: ",ActionOutput+" "+ActionTotal);
         if ((ActionTotal+Double.parseDouble(UserInput))!=0) {
-            Log.d("test: ",ActionOutput+"");
+            //Log.d("test: ",ActionOutput+"");
             Row currentRow = new Row();
             currentRow.setAmount(ActionTotal + Double.parseDouble(UserInput));
             currentRow.setPayout(ActionOutput);
-            if (ActionOutput!=ActionOutputOrig)
+            //Log.d("Russell", ActionOutput + " " + ActionOutputOrig);
+            if (ActionOutput.intValue()!=ActionOutputOrig.intValue())
                 currentRow.setWarning(true);
+            else
+                currentRow.setWarning(false);
             JobRows_array.add(currentRow);
             NotesCount();
             applicationVariables.saveData(this, JobRows_array);
@@ -283,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             tr.setId(count);
-            if (row.getWarinig())
+            if (!row.getWarinig())
                 tr.setBackgroundColor(Color.GREEN);
             else
                 tr.setBackgroundColor(Color.YELLOW);
@@ -295,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
             labelTV.setText(String.format("$%8.2f", row.getAmount()));
             labelTV.setTextColor(Color.BLACK);
             labelTV.setGravity(Gravity.RIGHT);
-            labelTV.setTextSize(18);
+            labelTV.setTextSize(16);
             labelTV.setLayoutParams(lp);
 
             tr.addView(labelTV);
@@ -303,10 +306,9 @@ public class MainActivity extends AppCompatActivity {
 
             TextView valueTV = new TextView(this);
             valueTV.setId(20 + count);
-
-
-            valueTV.setText(String.format("$%8.2f", row.getPayout()));
-            valueTV.setTextSize(18);
+            //valueTV.setText(String.format("$%8.2f", row.getPayout()));
+            valueTV.setText("$ "+row.getPayoutString());
+            valueTV.setTextSize(16);
             valueTV.setTextColor(Color.BLACK);
             valueTV.setGravity(Gravity.RIGHT);
 
@@ -329,10 +331,11 @@ public class MainActivity extends AppCompatActivity {
         UserInput = "0";
         ActionTotal = 0.0;
         MarkupStr = "";
+
         txtInput.setText(UserInput);
         txtOutput.setText("Payout: -");
         txtMarkup.setText("-");
-
+        txtMinput.setText("");
 
         CalculateTotals();
     }
@@ -376,24 +379,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        String tmp = "<font color=#cc0029>Total: $</font><font color=#ffcc00>zweite Farbe</font>";
+        //String tmp = "<font color=#cc0029>Total: $</font><font color=#ffcc00>zweite Farbe</font>";
 
 
-        String minput,markup;
-        if (UserInput=="0") {
-            markup = MarkupStr;
-            minput = String.valueOf(ActionTotal);
-        }
-        else if (MarkupStr=="") {
+        String markup;
+        double minput;
+
+        if (UserInput=="0")
+            markup = MarkupStr; //    minput = String.valueOf(ActionTotal);
+        else if (MarkupStr=="")
             markup = UserInput;
-            minput = String.valueOf(ActionTotal + Double.parseDouble(UserInput));
-        //    ActionTotal=ActionTotal + Double.parseDouble(UserInput);
-        } else {
+         else
             markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
-            minput = String.valueOf(ActionTotal + Double.parseDouble(UserInput));
 
-        }
-        ActionOutput=ActionTotal + Double.parseDouble(UserInput);
+        minput = ActionTotal + Double.parseDouble(UserInput);
+
         txtInput.setText(UserInput);
         txtOutput.setText(Html.fromHtml("Payout: $" + "<font color='#EE0000'><b>"+Output(UserInput, ActionTotal).intValue()+"</b></font>"));
         txtMarkup.setText(Html.fromHtml(markup));
@@ -431,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
 
         //    Log.d("NOTES :",note1k+" "+note50+" "+note20+" "+note10+" "+note5);
         }
+
         //Log.d("Count: "," "+JobRows_array.isEmpty());
         txt1k.setText("1000\n" + notesThusdant.intValue());
         txt50.setText("50\n"+notesFifty.intValue());
