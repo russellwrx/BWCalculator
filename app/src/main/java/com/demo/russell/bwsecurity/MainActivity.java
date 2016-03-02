@@ -1,31 +1,31 @@
 package com.demo.russell.bwsecurity;
 
 import android.app.AlertDialog;
-import android.content.Context;
+//import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
+//import android.content.SharedPreferences;
+//import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+//import android.preference.PreferenceManager;
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+//import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+//import android.view.Menu;
+//import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.google.gson.Gson;
+//import android.widget.Toast;
+//import com.google.gson.Gson;
 
-import com.demo.russell.bwsecurity.ApplicationVariables;
+//import com.demo.russell.bwsecurity.ApplicationVariables;
 
 
 import java.io.IOException;
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void AdjustOutput(String action){
-        if (action=="inc"){
+        if (action.equals("inc")){
             ActionOutput+=5.0;
         } else {
             ActionOutput-=5.0;
@@ -373,33 +373,33 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void CalculatorInput(String CalcInput){
-        if (CalcInput=="BS") {
+        if (CalcInput.equals("BS")) {
             if (UserInput.length()>1 && UserInput!="0")
                 UserInput = UserInput.substring(0, UserInput.length() - 1);
             else
                 UserInput = "0";
-        } else if (CalcInput == "."){
-            if (UserInput.indexOf(".")==-1)
+        } else if (CalcInput.equals(".")){
+            if (!UserInput.contains("."))
                 UserInput = UserInput + CalcInput;
-        } else if (CalcInput == "C") {
+        } else if (CalcInput.equals("C")) {
             UserInput = "0";
             ActionTotal = 0.0;
             MarkupStr = "";
         }
-        else if (CalcInput == "MP") {
+        else if (CalcInput.equals("MP")) {
             ActionTotal += Double.parseDouble(UserInput);
-            if (MarkupStr=="")
+            if (MarkupStr.equals(""))
                 MarkupStr += UserInput;
             else
                 MarkupStr += "<font color='#EE0000'>+</font>"+ UserInput;
             UserInput = "0";
         }
         else {
-            if (UserInput == "0")
+            if (UserInput.equals("0"))
                 UserInput = CalcInput;
 
             else {
-                if (UserInput.indexOf(".")==-1)   //Check if input has decimal point
+                if (!UserInput.contains("."))   //Check if input has decimal point
                     UserInput = UserInput + CalcInput;
                 else {
                     if (UserInput.length()-UserInput.indexOf(".")<3)  // Accept only two digits after decimal point
@@ -415,9 +415,9 @@ public class MainActivity extends AppCompatActivity {
         String markup;
         double minput;
 
-        if (UserInput=="0")
+        if (UserInput.equals("0"))
             markup = MarkupStr; //    minput = String.valueOf(ActionTotal);
-        else if (MarkupStr=="")
+        else if (MarkupStr.equals(""))
             markup = UserInput;
          else
             markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
@@ -458,11 +458,7 @@ public class MainActivity extends AppCompatActivity {
                 notesFifty=20+notesFifty;
                 notesThusdant-=1;
             }
-
-        //    Log.d("NOTES :",note1k+" "+note50+" "+note20+" "+note10+" "+note5);
         }
-
-        //Log.d("Count: "," "+JobRows_array.isEmpty());
         txt1k.setText("1000\n" + notesThusdant.intValue());
         txt50.setText("50\n"+notesFifty.intValue());
         txt20.setText("20\n"+notesTwenty.intValue());
@@ -489,8 +485,6 @@ public class MainActivity extends AppCompatActivity {
             ActionOutput = comparevalue-90.0;
         else
             ActionOutput = value;
-
-        //return String.valueOf(ActionOutput);
         ActionOutputOrig=ActionOutput;
         return ActionOutput;
     }
