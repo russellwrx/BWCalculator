@@ -186,10 +186,10 @@ public class MainActivity extends AppCompatActivity {
                     RunTest();
                     break;
                 case R.id.buttonInc:
-                    RunTest();
+                    AdjustOutput();
                     break;
                 case R.id.buttonDec:
-                    RunTest();
+                    AdjustOutput();
                     break;
                 default:
                     break;
@@ -198,7 +198,9 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    private void
+    private void AdjustOutput(){
+
+    }
 
     private void RunTest(){
 
