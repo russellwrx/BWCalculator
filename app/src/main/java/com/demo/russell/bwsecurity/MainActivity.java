@@ -39,12 +39,12 @@ import static java.lang.Math.round;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnPlus,btnTest,btnInc,btnDec,btnReset;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnTest,btnInc,btnDec,btnReset,btnEXP;
     TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
-    Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,FloatAmount=35550.0;
+    Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal,FloatAmount=35550.0;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
     TableLayout tl;
@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         btnInc = (Button) findViewById(R.id.buttonInc);
         btnDec = (Button) findViewById(R.id.buttonDec);
         btnReset = (Button) findViewById(R.id.buttonReset);
+        btnEXP = (Button) findViewById(R.id.buttonExp);
+        btnFloat = (Button) findViewById(R.id.buttonFloat);
 
 
 
@@ -128,12 +130,42 @@ public class MainActivity extends AppCompatActivity {
         btnInc.setOnClickListener(RussellClickLister);
         btnDec.setOnClickListener(RussellClickLister);
         btnReset.setOnLongClickListener(AppReset);
+        btnEXP.setOnClickListener(RussellClickLister);
+        btnFloat.setOnClickListener(FloatAdjust);
 
         tl = (TableLayout) findViewById(R.id.tblLayout);
+        btnInc.setEnabled(false);
+        btnDec.setEnabled(false);
 
         JobRows_array = applicationVariables.getData(this);
         RefreshScreen();
     }
+
+    private View.OnClickListener FloatAdjust = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder
+                        .setTitle("Adjust Starting Float")
+                        .setMessage("Set New Float Value: "+UserInput+"550")
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
+                                RefreshScreen();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+        }
+    };
+
+
 
     private View.OnLongClickListener AppReset = new View.OnLongClickListener() {
         @Override
@@ -220,6 +252,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.buttonDec:
                     AdjustOutput("dec");
                     break;
+                case R.id.buttonExp:
+                    AddExpRow();
+                    break;
                 default:
                     break;
             }
@@ -243,6 +278,16 @@ public class MainActivity extends AppCompatActivity {
         RefreshScreen();
     }
 
+    private void AddExpRow(){
+        if (Double.parseDouble(UserInput)!=0){
+            Row currentRow = new Row();
+            currentRow.setExpence(Double.parseDouble(UserInput));
+            JobRows_array.add(currentRow);
+            NotesCount();
+            applicationVariables.saveData(this, JobRows_array);
+            RefreshScreen();
+        }
+    }
 
     private void AddRow() {
 
@@ -314,9 +359,15 @@ public class MainActivity extends AppCompatActivity {
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
             lp.setMargins(10, 12, 10, 12);
 
+            //int tcolor = Color.BLUE;
+
+
 
             tr.setId(count);
             if (!row.getWarinig())
+                if (row.getExpence()!=0)
+                    tr.setBackgroundColor(Color.BLUE);
+                else
                 tr.setBackgroundColor(Color.GREEN);
             else
                 tr.setBackgroundColor(Color.YELLOW);
@@ -337,7 +388,10 @@ public class MainActivity extends AppCompatActivity {
             TextView valueTV = new TextView(this);
             valueTV.setId(20 + count);
             //valueTV.setText(String.format("$%8.2f", row.getPayout()));
-            valueTV.setText("$ "+row.getPayoutString());
+            if (row.getExpence()!=0)
+                valueTV.setText("$ "+row.getExpence());
+            else
+                valueTV.setText("$ "+row.getPayoutString());
             valueTV.setTextSize(16);
             valueTV.setTextColor(Color.BLACK);
             valueTV.setGravity(Gravity.RIGHT);
@@ -441,13 +495,23 @@ public class MainActivity extends AppCompatActivity {
 
         double note1k,note50,note20,note10,note5;
 
-        for ( Row row : JobRows_array ){
-            note1k=floor(row.getPayout()/1000);
-            note50=floor((row.getPayout()-(note1k*1000))/50);
-            note20=floor((row.getPayout()-(note1k*1000)-(note50*50))/20);
-            note10=floor((row.getPayout()-(note1k*1000)-(note50*50)-(note20*20))/10);
-            note5=floor((row.getPayout()-(note1k*1000)-(note50*50)-(note20*20)-(note10*10))/5);
 
+
+        for ( Row row : JobRows_array ){
+            double payout;
+            if (row.getExpence()!=0.0)
+                payout = row.getExpence();
+            else
+                payout = row.getPayout();
+
+            note1k=floor(payout/1000);
+            note50=floor((payout-(note1k*1000))/50);
+            note20=floor((payout-(note1k*1000)-(note50*50))/20);
+            note10=floor((payout-(note1k*1000)-(note50*50)-(note20*20))/10);
+            note5=floor((payout-(note1k*1000)-(note50*50)-(note20*20)-(note10*10))/5);
+
+            if ((note1k*1000+note50*50+note20*20+note10*10+note5*5)!=payout)
+                note5+=1;
             notesThusdant-=note1k;
             notesFifty-=note50;
             notesTwenty-=note20;
@@ -462,7 +526,7 @@ public class MainActivity extends AppCompatActivity {
         txt1k.setText("1000\n" + notesThusdant.intValue());
         txt50.setText("50\n"+notesFifty.intValue());
         txt20.setText("20\n"+notesTwenty.intValue());
-        txt10.setText("10\n"+notesTen.intValue());
+        txt10.setText("10\n" + notesTen.intValue());
         txt5.setText("5\n"+notesFive.intValue());
 
 
@@ -473,8 +537,11 @@ public class MainActivity extends AppCompatActivity {
         double value = Double.parseDouble(CalcInput)+actionTotal;
         double comparevalue = value;
         //
-        if (value < 100.0)
+        if (value < 100.0) {
+            btnInc.setEnabled(false);
+            btnDec.setEnabled(false);
             return 0.0;
+        }
         if (value > 6000)
             value = value * .96 - 60;
          else
@@ -485,6 +552,8 @@ public class MainActivity extends AppCompatActivity {
             ActionOutput = comparevalue-90.0;
         else
             ActionOutput = value;
+        btnInc.setEnabled(true);
+        btnDec.setEnabled(true);
         ActionOutputOrig=ActionOutput;
         return ActionOutput;
     }
@@ -494,17 +563,20 @@ public class MainActivity extends AppCompatActivity {
         ChequesTotal=0.0;
         PayoutTotal=0.0;
         MoneyOnHand=0.0;
+        ExpenceTotal=0.0;
 
 
         for (Row row : JobRows_array){
             ChequesTotal+=row.getAmount();
             PayoutTotal+=row.getPayout();
-            NumberOfJobs+=1;
+            ExpenceTotal+=row.getExpence();
+            if (row.getExpence()==0)
+                NumberOfJobs+=1;
         }
         txtCheques.setText("Cheques\n"+ChequesTotal);
         txtPayout.setText("Payout\n"+PayoutTotal.intValue());
         txtJobs.setText("Jobs\n"+NumberOfJobs.intValue());
-        txtMOH.setText("On Hand\n"+(FloatAmount-PayoutTotal));
+        txtMOH.setText("On Hand\n"+(FloatAmount-PayoutTotal-ExpenceTotal));
     }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

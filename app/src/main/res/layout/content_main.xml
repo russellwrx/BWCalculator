@@ -247,6 +247,12 @@
                                 android:textSize="10dp" />
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"></LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -513,16 +519,18 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button18"
+                    android:id="@+id/buttonExp"
                     android:layout_weight="1"
-                    android:textSize="@dimen/ButtonText"/>
+                    android:textSize="@dimen/ButtonText"
+                    android:text="EXP" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button19"
+                    android:id="@+id/buttonFloat"
                     android:layout_weight="1"
-                    android:textSize="@dimen/ButtonText"/>
+                    android:textSize="@dimen/ButtonText"
+                    android:text="Fl" />
 
                 <Button
                     android:layout_width="wrap_content"
