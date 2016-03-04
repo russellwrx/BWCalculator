@@ -383,14 +383,12 @@ public class MainActivity extends AppCompatActivity {
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
             lp.setMargins(10, 12, 10, 12);
 
-            //int tcolor = Color.BLUE;
-
 
 
             tr.setId(count);
             if (!row.getWarinig())
                 if (row.getExpence()!=0)
-                    tr.setBackgroundColor(Color.BLUE);
+                    tr.setBackgroundColor(Color.LTGRAY);
                 else
                 tr.setBackgroundColor(Color.GREEN);
             else
@@ -601,10 +599,11 @@ public class MainActivity extends AppCompatActivity {
             if (row.getExpence()==0)
                 NumberOfJobs+=1;
         }
+        MoneyOnHand=FloatAmount-PayoutTotal-ExpenceTotal;
         txtCheques.setText("Cheques\n"+ChequesTotal);
         txtPayout.setText("Payout\n"+PayoutTotal.intValue());
         txtJobs.setText("Jobs\n"+NumberOfJobs.intValue());
-        txtMOH.setText("On Hand\n"+(FloatAmount-PayoutTotal-ExpenceTotal));
+        txtMOH.setText("On Hand\n"+(MoneyOnHand));
         txtExp.setText("Expences\n"+ExpenceTotal);
     }
 //    @Override
