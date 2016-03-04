@@ -16,20 +16,23 @@ import java.util.List;
 public class ApplicationVariables {
     public static final String PREFS_NAME = "BWSCURITY_PREFS";
     public static final String PREF_KEY = "DATALIST";
+    public static final String PREF_VAR = "DATAVAR";
     public ApplicationVariables(){
         super();
     }
 
-    public void saveData(Context context, ArrayList<Row> dataList){
+
+
+    public void saveData(Context context, ArrayList<Row> dataList, double startfloat){
         Gson gson = new Gson();
         String jsonObject = gson.toJson(dataList);
         //Log.d("JSON WRITE: ", jsonObject);
-
         //Save to SharedPreferences
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREF_VAR,startfloat+"");
         editor.putString(PREF_KEY,jsonObject);
-        editor.commit();
+       editor.commit();
     }
 
     public ArrayList<Row> getData(Context context) {
@@ -50,6 +53,17 @@ public class ApplicationVariables {
         }
 
     }
+
+    public Double getVariables(Context context){
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if (settings.contains(PREF_VAR)){
+            String startFloat = settings.getString(PREF_VAR,null);
+            return Double.parseDouble(startFloat);
+        }
+        return 30550.0;
+    }
+
+
     public void removekey(Context context,String remove_key){
       //Save to SharedPreferences
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

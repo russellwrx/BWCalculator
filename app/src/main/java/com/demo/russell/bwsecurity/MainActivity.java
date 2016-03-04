@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
-    Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal,FloatAmount=35550.0;
+    Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal,FloatAmount=30550.0;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
     TableLayout tl;
@@ -54,17 +54,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         this.JobRows_array = new ArrayList<Row>();
         applicationVariables = new ApplicationVariables();
@@ -138,12 +127,13 @@ public class MainActivity extends AppCompatActivity {
         btnDec.setEnabled(false);
 
         JobRows_array = applicationVariables.getData(this);
+        FloatAmount = applicationVariables.getVariables(this);
         RefreshScreen();
     }
 
     private View.OnClickListener FloatAdjust = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(final View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder
                         .setTitle("Adjust Starting Float")
@@ -153,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
+                                applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
                                 RefreshScreen();
                             }
                         })
@@ -179,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 JobRows_array.clear();
-                                applicationVariables.saveData(v.getContext(), JobRows_array);
+                                FloatAmount=30550.0;
+                                applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
                                 RefreshScreen();
                             }
                         })
@@ -284,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
             currentRow.setExpence(Double.parseDouble(UserInput));
             JobRows_array.add(currentRow);
             NotesCount();
-            applicationVariables.saveData(this, JobRows_array);
+            applicationVariables.saveData(this, JobRows_array,FloatAmount);
             RefreshScreen();
         }
     }
@@ -304,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                 currentRow.setWarning(false);
             JobRows_array.add(currentRow);
             NotesCount();
-            applicationVariables.saveData(this, JobRows_array);
+            applicationVariables.saveData(this, JobRows_array,FloatAmount);
             RefreshScreen();
         }
     }
@@ -335,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
                                     tl.removeView(v);
                                     JobRows_array.remove(v.getId());
                                     NotesCount();
-                                    applicationVariables.saveData(v.getContext(), JobRows_array);
+                                    applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
                                     CalculateTotals();
 
                                 }
@@ -487,15 +479,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void NotesCount(){
 
+
         this.notesThusdant=30.0;
         this.notesFifty =0.0;
         this.notesTwenty=20.0;
         this.notesTen=10.0;
         this.notesFive=10.0;
 
+
+
         double note1k,note50,note20,note10,note5;
 
 
+        this.notesThusdant=floor(FloatAmount/1000);
 
         for ( Row row : JobRows_array ){
             double payout;
