@@ -10,6 +10,7 @@ import android.os.Bundle;
 //import android.preference.PreferenceManager;
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;
+import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 //import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -39,8 +40,8 @@ import static java.lang.Math.round;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnTest,btnInc,btnDec,btnReset,btnEXP;
-    TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnTest,btnInc,btnDec,btnReset,btnEXP,btnInfo;
+    TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH,txtExp;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
@@ -67,12 +68,15 @@ public class MainActivity extends AppCompatActivity {
         txtJobs = (TextView) findViewById(R.id.textViewJobs);
         txtCheques = (TextView) findViewById(R.id.textViewCheques);
         txtPayout = (TextView) findViewById(R.id.textViewPayouts);
+        txtExp = (TextView) findViewById(R.id.textViewExpence);
         txtMOH = (TextView) findViewById(R.id.textViewOnHand);
+
         txt1k = (TextView) findViewById(R.id.textView1k);
         txt50 = (TextView) findViewById(R.id.textView50);
         txt20 = (TextView) findViewById(R.id.textView20);
         txt10 = (TextView) findViewById(R.id.textView10);
         txt5 = (TextView) findViewById(R.id.textView5);
+
 
 
 
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.buttonReset);
         btnEXP = (Button) findViewById(R.id.buttonExp);
         btnFloat = (Button) findViewById(R.id.buttonFloat);
+        btnInfo = (Button) findViewById(R.id.buttonInfo);
 
 
 
@@ -121,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         btnReset.setOnLongClickListener(AppReset);
         btnEXP.setOnClickListener(RussellClickLister);
         btnFloat.setOnClickListener(FloatAdjust);
+        btnInfo.setOnClickListener(AppInfo);
 
         tl = (TableLayout) findViewById(R.id.tblLayout);
         btnInc.setEnabled(false);
@@ -131,28 +137,54 @@ public class MainActivity extends AppCompatActivity {
         RefreshScreen();
     }
 
+    private View.OnClickListener AppInfo = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            String InfoMessage;
+            InfoMessage = "Starting Float: \t\t"+FloatAmount+"\nTotal Jobs: \t\t\t\t\t"+NumberOfJobs+"\nCheques Value: \t\t"+ChequesTotal+"\nPayout Value: \t\t"+PayoutTotal+"\nExpence Value: \t\t"+ExpenceTotal+"\nMoney On Hand: \t\t"+MoneyOnHand;
+            builder
+                    .setTitle("App Ver 1.0")
+                    .setMessage(InfoMessage)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            AlertDialog dialog = builder.show();
+            TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
+            messageView.setGravity(Gravity.LEFT);
+
+        }
+    };
+
+
     private View.OnClickListener FloatAdjust = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder
-                        .setTitle("Adjust Starting Float")
-                        .setMessage("Set New Float Value: "+UserInput+"550")
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
-                                applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
-                                RefreshScreen();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .show();
+
+                if (UserInput!="0") {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder
+                            .setTitle("Adjust Starting Float")
+                            .setMessage("Set New Float Value: " + UserInput + "550")
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
+                                    applicationVariables.saveData(v.getContext(), JobRows_array, FloatAmount);
+                                    RefreshScreen();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
         }
     };
 
@@ -573,6 +605,7 @@ public class MainActivity extends AppCompatActivity {
         txtPayout.setText("Payout\n"+PayoutTotal.intValue());
         txtJobs.setText("Jobs\n"+NumberOfJobs.intValue());
         txtMOH.setText("On Hand\n"+(FloatAmount-PayoutTotal-ExpenceTotal));
+        txtExp.setText("Expences\n"+ExpenceTotal);
     }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
