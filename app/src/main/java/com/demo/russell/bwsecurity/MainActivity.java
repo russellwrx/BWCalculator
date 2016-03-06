@@ -184,7 +184,13 @@ public class MainActivity extends AppCompatActivity {
             payout.setText(""+PayoutTotal.intValue());
             expences.setText(""+ExpenceTotal);
             moneyofhand.setText(""+MoneyOnHand);
-            summary.setText(""+(ChequesTotal-(PayoutTotal-ExpenceTotal)));
+
+            Double result = 0.0;
+
+            result = substruct_double(ChequesTotal,PayoutTotal);
+            result = substruct_double(result,ExpenceTotal);
+
+            summary.setText(""+result);
 
 
 
@@ -677,6 +683,12 @@ public class MainActivity extends AppCompatActivity {
         BigDecimal bval1 = new BigDecimal(val1.toString());
         BigDecimal bval2 = new BigDecimal(val2.toString());
         BigDecimal calculation = bval1.add(bval2);
+        return calculation.doubleValue();
+    }
+    private Double substruct_double(Double val1, Double val2){
+        BigDecimal bval1 = new BigDecimal(val1.toString());
+        BigDecimal bval2 = new BigDecimal(val2.toString());
+        BigDecimal calculation = bval1.subtract(bval2);
         return calculation.doubleValue();
     }
 
