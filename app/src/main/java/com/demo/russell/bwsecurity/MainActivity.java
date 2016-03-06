@@ -337,10 +337,14 @@ public class MainActivity extends AppCompatActivity {
     private void RefreshScreen(){
 
         int count = 0;
-        tl.removeAllViews();
-        for ( Row row : JobRows_array ){
-            TableRow tr = new TableRow(this);
+        final ArrayList trcount = new ArrayList();
 
+        tl.removeAllViews();
+
+        for ( Row row : JobRows_array ){
+            final TableRow tr = new TableRow(this);
+
+            trcount.add(count);
             tr.setClickable(true);
             tr.setOnClickListener(new View.OnClickListener() {   //Create delete option for each row
                 @Override
@@ -349,15 +353,15 @@ public class MainActivity extends AppCompatActivity {
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(),AlertDialog.THEME_HOLO_DARK);
                     builder
-                            .setTitle("Delete Row: " + (v.getId()+1))
+                            .setTitle("Delete Row: " + (trcount.indexOf(v.getId())+1))
                             .setMessage("Are you sure?")
-                            //.setView()
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //Log.d("BWSEC TABLE", "Yes"); //Delete Row
+                                    //Log.d("BWSEC TABLE", "" + trcount + " " + trcount.indexOf(v.getId())); //Delete Row
                                     tl.removeView(v);
-                                    JobRows_array.remove(v.getId());
+                                    JobRows_array.remove(trcount.indexOf(v.getId()));
+                                    trcount.remove(trcount.indexOf(v.getId()));
                                     NotesCount();
                                     applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
                                     CalculateTotals();
@@ -537,7 +541,12 @@ public class MainActivity extends AppCompatActivity {
             note5=floor((payout-(note1k*1000)-(note50*50)-(note20*20)-(note10*10))/5);
 
             if ((note1k*1000+note50*50+note20*20+note10*10+note5*5)!=payout)
-                note5+=1;
+                if (note5==0)
+                    note5+=1;
+                else {
+                    note10+=1;
+                    note5=0;
+                }
             notesThusdant-=note1k;
             notesFifty-=note50;
             notesTwenty-=note20;
