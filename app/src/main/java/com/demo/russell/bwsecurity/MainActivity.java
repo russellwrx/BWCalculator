@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             final Dialog dialog = new Dialog(MainActivity.this);
-            Window window = dialog.getWindow();
+//            Window window = dialog.getWindow();
             dialog.setTitle("");
 
 //            TextView title = new TextView(v.getContext());
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 //            dialog.setTitle(title);
 
             dialog.setContentView(R.layout.application_summary_dialog);
-            window.setLayout(900,900);
+//            window.setLayout(900,900);
             dialog.show();
 
             TextView startAmount = (TextView)dialog.findViewById(R.id.textViewStarting);
