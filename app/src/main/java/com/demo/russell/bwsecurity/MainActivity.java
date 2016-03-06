@@ -2,6 +2,7 @@ package com.demo.russell.bwsecurity;
 
 import android.app.AlertDialog;
 //import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
 //import android.content.SharedPreferences;
 //import android.content.res.Resources;
@@ -19,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 //import android.view.Menu;
 //import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -140,21 +142,68 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener AppInfo = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            String InfoMessage;
-            InfoMessage = "Starting Float: \t\t"+FloatAmount+"\nTotal Jobs: \t\t\t\t\t"+NumberOfJobs+"\nCheques Value: \t\t"+ChequesTotal+"\nPayout Value: \t\t"+PayoutTotal+"\nExpence Value: \t\t"+ExpenceTotal+"\nMoney On Hand: \t\t"+MoneyOnHand;
-            builder
-                    .setTitle("App Ver 1.0")
-                    .setMessage(InfoMessage)
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-            AlertDialog dialog = builder.show();
-            TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
-            messageView.setGravity(Gravity.LEFT);
+
+            final Dialog dialog = new Dialog(MainActivity.this);
+            Window window = dialog.getWindow();
+            dialog.setTitle("");
+
+//            TextView title = new TextView(v.getContext());
+//            title.setText("Summary");
+//            title.setBackgroundColor(Color.BLACK);
+//            title.setPadding(10, 10, 10, 10);
+//            title.setGravity(Gravity.CENTER);
+//            title.setTextColor(Color.WHITE);
+//
+//            dialog.setTitle(title);
+
+            dialog.setContentView(R.layout.application_summary_dialog);
+            window.setLayout(900,900);
+            dialog.show();
+
+            TextView startAmount = (TextView)dialog.findViewById(R.id.textViewStarting);
+            TextView numofJobs = (TextView)dialog.findViewById(R.id.textViewNumberOfJobs);
+            TextView cheques = (TextView)dialog.findViewById(R.id.textViewCheques);
+            TextView payout = (TextView)dialog.findViewById(R.id.textViewPayouts);
+            TextView expences = (TextView)dialog.findViewById(R.id.textViewExpence);
+            TextView moneyofhand = (TextView)dialog.findViewById(R.id.textViewMoneyOnHand);
+            TextView summary = (TextView)dialog.findViewById(R.id.textViewSummary);
+
+            Button btnOK = (Button)dialog.findViewById(R.id.buttonOK);
+
+            btnOK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                }
+            });
+
+            startAmount.setText(FloatAmount.intValue() + "");
+            numofJobs.setText(NumberOfJobs.intValue()+"");
+            cheques.setText(ChequesTotal+"");
+            payout.setText(""+PayoutTotal.intValue());
+            expences.setText(""+ExpenceTotal);
+            moneyofhand.setText(""+MoneyOnHand);
+            summary.setText(""+(ChequesTotal-(PayoutTotal-ExpenceTotal)));
+
+
+
+
+
+//            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+//            String InfoMessage;
+//            InfoMessage = "Starting Float: \t\t"+FloatAmount+"\nTotal Jobs: \t\t\t\t\t"+NumberOfJobs+"\nCheques Value: \t\t"+ChequesTotal+"\nPayout Value: \t\t"+PayoutTotal+"\nExpence Value: \t\t"+ExpenceTotal+"\nMoney On Hand: \t\t"+MoneyOnHand;
+//            builder
+//                    .setTitle("App Ver 1.0")
+//                    .setMessage(InfoMessage)
+//                    .setIcon(android.R.drawable.ic_dialog_info)
+//                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                        }
+//                    });
+//            AlertDialog dialog = builder.show();
+//            TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
+//            messageView.setGravity(Gravity.LEFT);
 
         }
     };
