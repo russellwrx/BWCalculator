@@ -6,9 +6,9 @@ import android.util.Log;
  * Created by russell on 28/02/16.
  */
 public class Row {
-    private double Amount;
-    private double Payout;
-    private double Expence;
+    private Double Amount;
+    private Double Payout;
+    private Double Expence;
     private boolean Warning;
 
 //    private int notes1k;
@@ -17,14 +17,14 @@ public class Row {
 //    private int notes10;
 //    private int notes5;
 
-    public void setAmount(double amount){
+    public void setAmount(Double amount){
         this.Amount = amount;
         Log.d("Russell", "Row:" + this.Amount);
     }
-    public void setPayout(double payout){
+    public void setPayout(Double payout){
         this.Payout = payout;
     }
-    public void setExpence(double expence){
+    public void setExpence(Double expence){
         this.Expence = expence;
     }
     public void setWarning(boolean warning){
@@ -43,8 +43,8 @@ public class Row {
         return this.Warning;
     }
     public String getPayoutString(){
-        int intconv = (int) this.Payout;
-        return  intconv+"";
+        //int intconv = (int) this.Payout;
+        return  Payout.intValue()+"";
     }
 //    public void setNotes1k(int amount){
 //        this.notes1k=amount;

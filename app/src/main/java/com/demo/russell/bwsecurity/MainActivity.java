@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -355,6 +356,8 @@ public class MainActivity extends AppCompatActivity {
         if (Double.parseDouble(UserInput)!=0){
             Row currentRow = new Row();
             currentRow.setExpence(Double.parseDouble(UserInput));
+            currentRow.setAmount(0.0);
+            currentRow.setPayout(0.0);
             JobRows_array.add(currentRow);
             NotesCount();
             applicationVariables.saveData(this, JobRows_array,FloatAmount);
@@ -370,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
             Row currentRow = new Row();
             currentRow.setAmount(ActionTotal + Double.parseDouble(UserInput));
             currentRow.setPayout(ActionOutput);
+            currentRow.setExpence(0.0);
             //Log.d("Russell", ActionOutput + " " + ActionOutputOrig);
             if (ActionOutput.intValue()!=ActionOutputOrig.intValue())
                 currentRow.setWarning(true);
@@ -650,20 +654,32 @@ public class MainActivity extends AppCompatActivity {
         ExpenceTotal=0.0;
 
 
+
+
+
         for (Row row : JobRows_array){
-            ChequesTotal+=row.getAmount();
+            ChequesTotal=add_double(ChequesTotal,row.getAmount());
             PayoutTotal+=row.getPayout();
-            ExpenceTotal+=row.getExpence();
+            ExpenceTotal=add_double(ExpenceTotal,row.getExpence());
             if (row.getExpence()==0)
                 NumberOfJobs+=1;
         }
+
         MoneyOnHand=FloatAmount-PayoutTotal-ExpenceTotal;
         txtCheques.setText("Cheques\n"+ChequesTotal);
         txtPayout.setText("Payout\n"+PayoutTotal.intValue());
-        txtJobs.setText("Jobs\n"+NumberOfJobs.intValue());
-        txtMOH.setText("On Hand\n"+(MoneyOnHand));
+        txtJobs.setText("Jobs\n" + NumberOfJobs.intValue());
+        txtMOH.setText("On Hand\n" + (MoneyOnHand));
         txtExp.setText("Expences\n"+ExpenceTotal);
     }
+
+    private Double add_double(Double val1, Double val2){
+        BigDecimal bval1 = new BigDecimal(val1.toString());
+        BigDecimal bval2 = new BigDecimal(val2.toString());
+        BigDecimal calculation = bval1.add(bval2);
+        return calculation.doubleValue();
+    }
+
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
