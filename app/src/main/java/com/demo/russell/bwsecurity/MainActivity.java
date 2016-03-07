@@ -15,6 +15,7 @@ import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 //import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -44,7 +45,7 @@ import static java.lang.Math.round;
 public class MainActivity extends AppCompatActivity {
 
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnTest,btnInc,btnDec,btnReset,btnEXP,btnInfo;
-    TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH,txtExp;
+    TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH,txtExp,txtFloat;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
@@ -66,13 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
         txtInput = (TextView) findViewById(R.id.textViewInput);
         txtOutput = (TextView) findViewById(R.id.textViewOutput);
-        txtMinput = (TextView) findViewById(R.id.textViewMultiInput);
+//        txtMinput = (TextView) findViewById(R.id.textViewMultiInput);
         txtMarkup = (TextView) findViewById(R.id.textViewMarkup);
         txtJobs = (TextView) findViewById(R.id.textViewJobs);
         txtCheques = (TextView) findViewById(R.id.textViewCheques);
         txtPayout = (TextView) findViewById(R.id.textViewPayouts);
         txtExp = (TextView) findViewById(R.id.textViewExpence);
         txtMOH = (TextView) findViewById(R.id.textViewOnHand);
+        txtFloat = (TextView) findViewById(R.id.textViewFloat);
 
         txt1k = (TextView) findViewById(R.id.textView1k);
         txt50 = (TextView) findViewById(R.id.textView50);
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         txt10 = (TextView) findViewById(R.id.textView10);
         txt5 = (TextView) findViewById(R.id.textView5);
 
-
+        txtMarkup.setMovementMethod(new ScrollingMovementMethod());
 
 
         btn0 = (Button) findViewById(R.id.button0);
@@ -168,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
             TextView expences = (TextView)dialog.findViewById(R.id.textViewExpence);
             TextView moneyofhand = (TextView)dialog.findViewById(R.id.textViewMoneyOnHand);
             TextView summary = (TextView)dialog.findViewById(R.id.textViewSummary);
+
+
 
             Button btnOK = (Button)dialog.findViewById(R.id.buttonOK);
 
@@ -374,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
     private void AddRow() {
 
         //Log.d("test: ",ActionOutput+" "+ActionTotal);
-        if ((ActionTotal+Double.parseDouble(UserInput))!=0) {
+        if ((ActionTotal+Double.parseDouble(UserInput))!=0 && ActionOutput>0) {
             //Log.d("test: ",ActionOutput+"");
             Row currentRow = new Row();
             currentRow.setAmount(ActionTotal + Double.parseDouble(UserInput));
@@ -430,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    v.setBackgroundColor(Color.GREEN);
+                                    v.setBackgroundColor(Color.parseColor("#A6FFEF"));
                                 }
                             })
                             .show();
@@ -451,12 +455,14 @@ public class MainActivity extends AppCompatActivity {
             tr.setId(count);
             if (!row.getWarinig())
                 if (row.getExpence()!=0)
-                    tr.setBackgroundColor(Color.LTGRAY);
+                    tr.setBackgroundColor(Color.parseColor("#FFFBCA"));
                 else
-                tr.setBackgroundColor(Color.GREEN);
+                tr.setBackgroundColor(Color.parseColor("#A6FFEF"));
             else
-                tr.setBackgroundColor(Color.YELLOW);
-            //tr.setGravity(Gravity.RIGHT);
+                tr.setBackgroundColor(Color.parseColor("#52FFE0"));
+
+//            tr.setBackgroundColor(0);
+
             tr.setLayoutParams(lp);
 
             TextView labelTV = new TextView(this);
@@ -499,13 +505,10 @@ public class MainActivity extends AppCompatActivity {
         NotesCount();
         UserInput = "0";
         ActionTotal = 0.0;
+        ActionOutput = 0.0;
         MarkupStr = "";
 
-        txtInput.setText(UserInput);
-        txtOutput.setText("Payout: -");
-        txtMarkup.setText("-");
-        txtMinput.setText("");
-
+        input_section_refresh("0","0","","");
         CalculateTotals();
     }
 
@@ -527,10 +530,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (CalcInput.equals("MP")) {
             ActionTotal += Double.parseDouble(UserInput);
-            if (MarkupStr.equals(""))
-                MarkupStr += UserInput;
-            else
-                MarkupStr += "<font color='#EE0000'>+</font>"+ UserInput;
+            MarkupStr +=UserInput+"<br><font color='#167BFF'>+</font>";
             UserInput = "0";
         }
         else {
@@ -552,22 +552,41 @@ public class MainActivity extends AppCompatActivity {
 
 
         String markup;
-        double minput;
+        Double minput;
 
-        if (UserInput.equals("0"))
-            markup = MarkupStr; //    minput = String.valueOf(ActionTotal);
-        else if (MarkupStr.equals(""))
+        if (UserInput.equals("0")) {
+            markup = MarkupStr; //    minput = String.valueOf(ActionTotal);}
+        }
+            else if (MarkupStr.equals(""))
             markup = UserInput;
          else
-            markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
+            markup = MarkupStr + UserInput;
 
         minput = ActionTotal + Double.parseDouble(UserInput);
 
-        txtInput.setText(UserInput);
-        txtOutput.setText(Html.fromHtml("Payout: $" + "<font color='#EE0000'><b>"+Output(UserInput, ActionTotal).intValue()+"</b></font>"));
-        txtMarkup.setText(Html.fromHtml(markup));
-        txtMinput.setText("Total: $" + minput);
+        input_section_refresh(UserInput, Output(UserInput, ActionTotal).toString(),markup,minput.toString());
 
+
+    }
+
+    private void input_section_refresh(String s_input, String s_output, String s_markup, String s_total){
+
+
+        if (Double.parseDouble(s_output)>0)
+            s_output="<font color=#cc0029>"+s_output+"</font>";
+        else
+            s_output="";
+
+        if (ActionTotal==0){
+            s_markup="";
+//            s_total="";
+        } else
+            s_markup=s_markup+"<br>------<br>Sum: "+s_total;
+
+        txtInput.setText(s_input);
+        txtOutput.setText(Html.fromHtml(s_output));
+        txtMarkup.setText(Html.fromHtml(s_markup));
+//        txtMinput.setText(Html.fromHtml(s_total));
     }
 
     private void NotesCount(){
@@ -672,11 +691,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         MoneyOnHand=FloatAmount-PayoutTotal-ExpenceTotal;
-        txtCheques.setText("Cheques\n"+ChequesTotal);
-        txtPayout.setText("Payout\n"+PayoutTotal.intValue());
-        txtJobs.setText("Jobs\n" + NumberOfJobs.intValue());
-        txtMOH.setText("On Hand\n" + (MoneyOnHand));
-        txtExp.setText("Expences\n"+ExpenceTotal);
+
+        //markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
+        String strjobs,stramount,strfloat,strpayout,strexpences,strmoneyonhand;
+        String numcolor = "'#0F1340'";
+
+       // "+numcolor+"
+
+        strfloat = "Float<br><font color="+numcolor+"><b>"+FloatAmount+"</b></font>";
+        strjobs = "Jobs<br><font color="+numcolor+"><b>"+NumberOfJobs.intValue()+"</b></font>";
+        stramount = "Cheques<br><font color="+numcolor+"><b>"+ChequesTotal+"</b></font>";
+        strpayout = "Payout<br><font color="+numcolor+"><b>"+PayoutTotal.intValue()+"</b></font>";
+        strexpences = "Expences<br><font color="+numcolor+"><b>"+ExpenceTotal+"</b></font>";
+        strmoneyonhand = "On Hand<br><font color="+numcolor+"><b>"+MoneyOnHand+"</b></font>";
+
+
+        txtFloat.setText(Html.fromHtml(strfloat));
+        txtCheques.setText(Html.fromHtml(stramount));
+        txtPayout.setText(Html.fromHtml(strpayout));
+        txtJobs.setText(Html.fromHtml(strjobs));
+        txtMOH.setText(Html.fromHtml(strmoneyonhand));
+        txtExp.setText(Html.fromHtml(strexpences));
     }
 
     private Double add_double(Double val1, Double val2){
@@ -692,25 +727,4 @@ public class MainActivity extends AppCompatActivity {
         return calculation.doubleValue();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }
