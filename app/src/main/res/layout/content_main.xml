@@ -354,7 +354,7 @@
                 android:text="C"
                 android:textColor="#ff0000"
                 android:textSize="@dimen/ButtonText10"
-                android:background="@android:color/darker_gray"
+                android:background="#797979"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp" />
@@ -386,13 +386,14 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/btnTest"
+                android:text="Info"
+                android:id="@+id/buttonInfo"
                 android:layout_weight="1"
                 android:textSize="12dp"
-                android:text="Refresh"
-                android:background="@android:color/darker_gray"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp" />
+                android:background="@android:color/holo_blue_light"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -444,7 +445,8 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button70"
+                    android:id="@+id/buttonBS"
+                    android:text="&lt;"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
                     android:background="@android:color/background_light"
@@ -454,13 +456,13 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonBS"
-                    android:text="&lt;"
+                    android:id="@+id/button70"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
                     android:background="@android:color/background_light"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -477,8 +479,8 @@
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
                     android:background="@android:color/background_light"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginRight="1dp" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -516,7 +518,6 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="!"
                     android:id="@+id/buttonSetting"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
@@ -578,13 +579,13 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Info"
-                    android:id="@+id/buttonInfo"
+                    android:id="@+id/button"
                     android:layout_weight="1"
-                    android:textSize="12dp"
-                    android:background="@android:color/holo_blue_light"
+                    android:textSize="@dimen/ButtonText"
+                    android:background="@android:color/background_light"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp" />
+
             </LinearLayout>
 
             <LinearLayout

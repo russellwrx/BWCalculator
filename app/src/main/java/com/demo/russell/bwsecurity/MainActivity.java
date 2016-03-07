@@ -41,13 +41,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Math.ceil;
 import static java.lang.Math.floor;
 import static java.lang.Math.min;
 import static java.lang.Math.round;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnTest,btnInc,btnDec,btnReset,btnEXP,btnInfo;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnInc,btnDec,btnReset,btnEXP,btnInfo;
     TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH,txtExp,txtFloat;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         btnClear = (Button) findViewById(R.id.buttonClear);
         btnMP = (Button) findViewById(R.id.buttonMultiPlus);
         btnPlus = (Button) findViewById(R.id.buttonPlus);
-        btnTest = (Button) findViewById(R.id.btnTest);
+        //btnTest = (Button) findViewById(R.id.btnTest);
         btnInc = (Button) findViewById(R.id.buttonInc);
         btnDec = (Button) findViewById(R.id.buttonDec);
         btnReset = (Button) findViewById(R.id.buttonReset);
@@ -126,13 +127,14 @@ public class MainActivity extends AppCompatActivity {
         btnClear.setOnClickListener(RussellClickLister);
         btnMP.setOnClickListener(RussellClickLister);
         btnPlus.setOnClickListener(RussellClickLister);
-        btnTest.setOnClickListener(RussellClickLister);
+        //btnTest.setOnClickListener(RussellClickLister);
         btnInc.setOnClickListener(RussellClickLister);
         btnDec.setOnClickListener(RussellClickLister);
         btnReset.setOnLongClickListener(AppReset);
         btnEXP.setOnClickListener(RussellClickLister);
         btnFloat.setOnClickListener(FloatAdjust);
         btnInfo.setOnClickListener(AppInfo);
+        btnInfo.setOnLongClickListener(AppTest);
 
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
@@ -141,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
         FloatAmount = applicationVariables.getVariables(this);
         RefreshScreen();
     }
+
+    private  View.OnLongClickListener AppTest = (new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            JobRows_array = applicationVariables.getData(v.getContext());
+            RefreshScreen();
+            return false;
+        }
+    });
 
     private View.OnClickListener AppInfo = new View.OnClickListener() {
         @Override
@@ -327,9 +338,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.buttonPlus:
                     AddRow();
                     break;
-                case R.id.btnTest:
-                    RunTest();
-                    break;
+//                case R.id.btnTest:
+//                    RunTest();
+//                    break;
                 case R.id.buttonInc:
                     AdjustOutput("inc");
                     break;
@@ -353,14 +364,16 @@ public class MainActivity extends AppCompatActivity {
             ActionOutput-=5.0;
         }
         //txtOutput.setText(Html.fromHtml("Payout: $" + "<font color='#EE0000'><b>"+Output(UserInput, ActionTotal).intValue()+"</b></font>"));
-        txtOutput.setText("Total: " + ActionOutput);
+
+        String outstring;
+
+        if (ActionOutput.intValue()!=ActionOutputOrig.intValue())
+            outstring="<b>"+ActionOutput+"</b>";
+        else
+            outstring="<font color='#EE0000'>"+ActionOutput+"</fonts>";
+        txtOutput.setText(Html.fromHtml(outstring));
     }
 
-    private void RunTest(){
-
-        JobRows_array = applicationVariables.getData(this);
-        RefreshScreen();
-    }
 
     private void AddExpRow(){
         if (Double.parseDouble(UserInput)!=0){
@@ -668,15 +681,15 @@ public class MainActivity extends AppCompatActivity {
             return 0.0;
         }
         if (value > 6000)
-            value = value * .96 - 60;
+            value = (value * .96) - 60;
          else
-            value = value * .95 - 60;
+            value = (value * .95) - 60;
         value = round(value / 5) * 5;
 
         if ((comparevalue-value)<90)
-            ActionOutput = comparevalue-90.0;
-        else
-            ActionOutput = value;
+            value = floor((comparevalue - 90.0) / 5)*5;
+        Log.d("Debug: ", ""+ceil((comparevalue - 90.0) / 5));
+        ActionOutput = value;
         btnInc.setEnabled(true);
         btnDec.setEnabled(true);
         ActionOutputOrig=ActionOutput;
