@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.View;
 //import android.view.Menu;
 //import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -31,6 +32,8 @@ import android.widget.TextView;
 
 //import com.demo.russell.bwsecurity.ApplicationVariables;
 
+
+import junit.framework.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal,FloatAmount=30550.0;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
-    TableLayout tl;
     private ApplicationVariables applicationVariables;
 
     @Override
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         txtInput = (TextView) findViewById(R.id.textViewInput);
         txtOutput = (TextView) findViewById(R.id.textViewOutput);
-//        txtMinput = (TextView) findViewById(R.id.textViewMultiInput);
         txtMarkup = (TextView) findViewById(R.id.textViewMarkup);
         txtJobs = (TextView) findViewById(R.id.textViewJobs);
         txtCheques = (TextView) findViewById(R.id.textViewCheques);
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         btnFloat.setOnClickListener(FloatAdjust);
         btnInfo.setOnClickListener(AppInfo);
 
-        tl = (TableLayout) findViewById(R.id.tblLayout);
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
 
@@ -401,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
 
         int count = 0;
         final ArrayList trcount = new ArrayList();
+        final TableLayout tl = (TableLayout) findViewById(R.id.tblLayout);
 
         tl.removeAllViews();
 
@@ -448,48 +449,49 @@ public class MainActivity extends AppCompatActivity {
 //
 
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
-            lp.setMargins(10, 12, 10, 12);
-
-
 
             tr.setId(count);
             if (!row.getWarinig())
                 if (row.getExpence()!=0)
-                    tr.setBackgroundColor(Color.parseColor("#FFFBCA"));
+                    tr.setBackgroundColor(Color.parseColor("#FFFBCA")); //Darkerblue
                 else
-                tr.setBackgroundColor(Color.parseColor("#A6FFEF"));
+                tr.setBackgroundColor(Color.parseColor("#A6FFEF"));  //Blue
             else
-                tr.setBackgroundColor(Color.parseColor("#52FFE0"));
+                tr.setBackgroundColor(Color.parseColor("#52FFE0"));  //Yellow
 
-//            tr.setBackgroundColor(0);
-
+            lp.setMargins(0, 0, 50, 0);
             tr.setLayoutParams(lp);
 
             TextView labelTV = new TextView(this);
+            labelTV.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT));
+
             labelTV.setId(10 + count);
             labelTV.setText(String.format("$%8.2f", row.getAmount()));
             labelTV.setTextColor(Color.BLACK);
             labelTV.setGravity(Gravity.RIGHT);
             labelTV.setTextSize(16);
-            labelTV.setLayoutParams(lp);
 
+            //lp.setMargins(50, 50, 60, 50);
+            //labelTV.setLayoutParams(lp);
             tr.addView(labelTV);
+
+            //valueTV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
 
 
             TextView valueTV = new TextView(this);
             valueTV.setId(20 + count);
-            //valueTV.setText(String.format("$%8.2f", row.getPayout()));
             if (row.getExpence()!=0)
                 valueTV.setText("$ "+row.getExpence());
             else
                 valueTV.setText("$ "+row.getPayoutString());
-            valueTV.setTextSize(16);
             valueTV.setTextColor(Color.BLACK);
             valueTV.setGravity(Gravity.RIGHT);
-
-
-            lp.setMargins(20, 5, 20, 5);
+            valueTV.setTextSize(16);
+            lp.setMargins(60, 0, 0, 0);
             valueTV.setLayoutParams(lp);
+
+
+            tr.setGravity(Gravity.CENTER);
             tr.addView(valueTV);
 
 
@@ -636,11 +638,21 @@ public class MainActivity extends AppCompatActivity {
                 notesThusdant-=1;
             }
         }
-        txt1k.setText("1000\n" + notesThusdant.intValue());
-        txt50.setText("50\n"+notesFifty.intValue());
-        txt20.setText("20\n"+notesTwenty.intValue());
-        txt10.setText("10\n" + notesTen.intValue());
-        txt5.setText("5\n"+notesFive.intValue());
+
+        String s1,s2,s3,s4,s5;
+
+
+        s1 = "$1K<br><b>" + notesThusdant.intValue()+"<b>";
+        s2 = "$50<br><b>"+notesFifty.intValue()+"<b>";
+        s3 = "$20<br><b>"+notesTwenty.intValue()+"<b>";
+        s4 = "$10<br><b>"+notesTen.intValue()+"<b>";
+        s5 = "$5<br><b>"+notesFive.intValue()+"<b>";
+
+        txt1k.setText(Html.fromHtml(s1));
+        txt50.setText(Html.fromHtml(s2));
+        txt20.setText(Html.fromHtml(s3));
+        txt10.setText(Html.fromHtml(s4));
+        txt5.setText(Html.fromHtml(s5));
 
 
     }
