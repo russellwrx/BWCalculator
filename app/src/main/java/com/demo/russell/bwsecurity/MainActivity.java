@@ -193,12 +193,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            startAmount.setText(FloatAmount.intValue() + "");
+            startAmount.setText("$" + FloatAmount.intValue());
             numofJobs.setText(NumberOfJobs.intValue()+"");
-            cheques.setText(ChequesTotal+"");
-            payout.setText(""+PayoutTotal.intValue());
-            expences.setText(""+ExpenceTotal);
-            moneyofhand.setText(""+MoneyOnHand);
+            cheques.setText("$"+ChequesTotal+"");
+            payout.setText("$"+PayoutTotal.intValue());
+            expences.setText("$"+ExpenceTotal);
+            moneyofhand.setText("$"+MoneyOnHand);
 
             Double result = 0.0;
 
