@@ -1,33 +1,37 @@
 package com.demo.russell.bwsecurity;
 
 import android.app.AlertDialog;
-//import android.content.Context;
+import android.content.Context;
 import android.app.Dialog;
 import android.content.DialogInterface;
-//import android.content.SharedPreferences;
-//import android.content.res.Resources;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-//import android.preference.PreferenceManager;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.Snackbar;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.renderscript.ScriptGroup;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-//import android.view.Menu;
-//import android.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-//import android.widget.Toast;
+import android.widget.Toast;
+import android.widget.Toast;
 //import com.google.gson.Gson;
 
 //import com.demo.russell.bwsecurity.ApplicationVariables;
@@ -36,7 +40,9 @@ import android.widget.TextView;
 import junit.framework.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
     private ApplicationVariables applicationVariables;
+
+    //drawer
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private String[] mPlanetTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
         btnFloat = (Button) findViewById(R.id.buttonFloat);
         btnInfo = (Button) findViewById(R.id.buttonInfo);
 
-
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         btn0.setOnClickListener(RussellClickLister);
         btn1.setOnClickListener(RussellClickLister);
@@ -127,14 +139,21 @@ public class MainActivity extends AppCompatActivity {
         btnClear.setOnClickListener(RussellClickLister);
         btnMP.setOnClickListener(RussellClickLister);
         btnPlus.setOnClickListener(RussellClickLister);
-        //btnTest.setOnClickListener(RussellClickLister);
         btnInc.setOnClickListener(RussellClickLister);
         btnDec.setOnClickListener(RussellClickLister);
         btnReset.setOnLongClickListener(AppReset);
+        btnReset.setOnClickListener(RussellClickLister);
         btnEXP.setOnClickListener(RussellClickLister);
         btnFloat.setOnClickListener(FloatAdjust);
         btnInfo.setOnClickListener(AppInfo);
         btnInfo.setOnLongClickListener(AppTest);
+
+        //drawer
+
+
+        mPlanetTitle = getResources().getStringArray(R.array.planets_array);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitle));
+        //
 
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
@@ -142,7 +161,13 @@ public class MainActivity extends AppCompatActivity {
         JobRows_array = applicationVariables.getData(this);
         FloatAmount = applicationVariables.getVariables(this);
         RefreshScreen();
+
+
+
     }
+
+
+
 
     private  View.OnLongClickListener AppTest = (new View.OnLongClickListener() {
         @Override
@@ -193,40 +218,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            startAmount.setText("$" + FloatAmount.intValue());
+
+            DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
+            DecimalFormat formatterint = new DecimalFormat("$#,###");
+
+
+            startAmount.setText(formatterint.format(FloatAmount));
             numofJobs.setText(NumberOfJobs.intValue()+"");
-            cheques.setText("$"+ChequesTotal+"");
-            payout.setText("$"+PayoutTotal.intValue());
-            expences.setText("$"+ExpenceTotal);
-            moneyofhand.setText("$"+MoneyOnHand);
+            cheques.setText(formatterdbl.format(ChequesTotal));
+            payout.setText(formatterint.format(PayoutTotal));
+            expences.setText(formatterdbl.format(ExpenceTotal));
+            moneyofhand.setText(formatterint.format(MoneyOnHand));
 
             Double result = 0.0;
 
             result = substruct_double(ChequesTotal,PayoutTotal);
             result = substruct_double(result,ExpenceTotal);
 
-            summary.setText(""+result);
-
-
-
-
-
-//            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-//            String InfoMessage;
-//            InfoMessage = "Starting Float: \t\t"+FloatAmount+"\nTotal Jobs: \t\t\t\t\t"+NumberOfJobs+"\nCheques Value: \t\t"+ChequesTotal+"\nPayout Value: \t\t"+PayoutTotal+"\nExpence Value: \t\t"+ExpenceTotal+"\nMoney On Hand: \t\t"+MoneyOnHand;
-//            builder
-//                    .setTitle("App Ver 1.0")
-//                    .setMessage(InfoMessage)
-//                    .setIcon(android.R.drawable.ic_dialog_info)
-//                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                        }
-//                    });
-//            AlertDialog dialog = builder.show();
-//            TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
-//            messageView.setGravity(Gravity.LEFT);
-
+            summary.setText(formatterdbl.format(result));
         }
     };
 
@@ -338,9 +347,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.buttonPlus:
                     AddRow();
                     break;
-//                case R.id.btnTest:
-//                    RunTest();
-//                    break;
+                case R.id.buttonReset:
+                    Toast toast = Toast.makeText(getApplicationContext(), "Long Press Reset",Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
                 case R.id.buttonInc:
                     AdjustOutput("inc");
                     break;

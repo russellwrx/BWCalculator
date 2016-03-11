@@ -38,8 +38,8 @@
                 android:text="Medium Text"
                 android:id="@+id/textViewStarting"
                 android:gravity="left"
-                android:textStyle="bold"
-                android:paddingLeft="15dp" />
+                android:paddingLeft="15dp"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -76,8 +76,8 @@
                 android:text="Medium Text"
                 android:id="@+id/textViewNumberOfJobs"
                 android:gravity="left"
-                android:textStyle="bold"
-                android:paddingLeft="15dp" />
+                android:paddingLeft="15dp"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -114,8 +114,8 @@
                 android:text="Medium Text"
                 android:id="@+id/textViewCheques"
                 android:gravity="left"
-                android:textStyle="bold"
-                android:paddingLeft="15dp" />
+                android:paddingLeft="15dp"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -152,8 +152,8 @@
                 android:text="Medium Text"
                 android:id="@+id/textViewPayouts"
                 android:gravity="left"
-                android:textStyle="bold"
-                android:paddingLeft="15dp" />
+                android:paddingLeft="15dp"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
 
@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Expences"
+                android:text="Expenses"
                 android:id="@+id/textView5"
                 android:gravity="right" />
         </LinearLayout>
@@ -191,8 +191,8 @@
                 android:text="Medium Text"
                 android:id="@+id/textViewExpence"
                 android:gravity="left"
-                android:textStyle="bold"
-                android:paddingLeft="15dp" />
+                android:paddingLeft="15dp"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
