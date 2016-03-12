@@ -148,12 +148,6 @@ public class MainActivity extends AppCompatActivity {
         btnInfo.setOnClickListener(AppInfo);
         btnInfo.setOnLongClickListener(AppTest);
 
-        //drawer
-
-
-        mPlanetTitle = getResources().getStringArray(R.array.planets_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitle));
-        //
 
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
@@ -168,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     private  View.OnLongClickListener AppTest = (new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
@@ -177,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     });
+
+
 
     private View.OnClickListener AppInfo = new View.OnClickListener() {
         @Override
@@ -237,6 +232,22 @@ public class MainActivity extends AppCompatActivity {
 
             summary.setText(formatterdbl.format(result));
         }
+    };
+
+
+    private void drawerList(){
+        ArrayList mlist = new ArrayList();
+
+        mlist.add("Float\n"+FloatAmount);
+        mlist.add("Jobs\n"+NumberOfJobs.intValue());
+        mlist.add("Cheques Amount\n"+ChequesTotal);
+        mlist.add("Payout Amount\n"+PayoutTotal.intValue());
+        mlist.add("Expenses\n"+ExpenceTotal);
+        mlist.add("Money On Hand\n"+MoneyOnHand);
+
+        mPlanetTitle = getResources().getStringArray(R.array.planets_array);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mlist));
+
     };
 
 
@@ -535,6 +546,7 @@ public class MainActivity extends AppCompatActivity {
 
         input_section_refresh("0","0","","");
         CalculateTotals();
+        drawerList();
     }
 
 
