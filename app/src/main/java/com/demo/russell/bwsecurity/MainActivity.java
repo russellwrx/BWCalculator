@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         mlist.add("Cheques Amount\n"+formatterdbl.format(ChequesTotal));
         mlist.add("Payout Amount\n"+formatterint.format(PayoutTotal));
         mlist.add("Expenses Amount\n"+formatterdbl.format(ExpenceTotal));
-        mlist.add("Money On Hand\n"+formatterint.format(MoneyOnHand));
+        mlist.add("Money On Hand\n"+formatterdbl.format(MoneyOnHand));
 
 
         mPlanetTitle = getResources().getStringArray(R.array.planets_array);
