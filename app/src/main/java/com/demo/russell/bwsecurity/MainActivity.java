@@ -605,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
 
         minput = ActionTotal + Double.parseDouble(UserInput);
 
-        input_section_refresh(UserInput, Output(UserInput, ActionTotal).toString(),markup,minput.toString());
+        input_section_refresh(UserInput, Output(UserInput, ActionTotal).toString(), markup, minput.toString());
 
 
     }
@@ -649,23 +649,17 @@ public class MainActivity extends AppCompatActivity {
         for ( Row row : JobRows_array ){
             double payout;
             if (row.getExpence()!=0.0)
-                payout = row.getExpence();
+                payout = ceil(row.getExpence()/5)*5;
             else
                 payout = row.getPayout();
 
             note1k=floor(payout/1000);
+
             note50=floor((payout-(note1k*1000))/50);
             note20=floor((payout-(note1k*1000)-(note50*50))/20);
             note10=floor((payout-(note1k*1000)-(note50*50)-(note20*20))/10);
             note5=floor((payout-(note1k*1000)-(note50*50)-(note20*20)-(note10*10))/5);
 
-            if ((note1k*1000+note50*50+note20*20+note10*10+note5*5)!=payout)
-                if (note5==0)
-                    note5+=1;
-                else {
-                    note10+=1;
-                    note5=0;
-                }
             notesThusdant-=note1k;
             notesFifty-=note50;
             notesTwenty-=note20;
@@ -704,6 +698,7 @@ public class MainActivity extends AppCompatActivity {
         if (value < 100.0) {
             btnInc.setEnabled(false);
             btnDec.setEnabled(false);
+            ActionOutput=0.0;
             return 0.0;
         }
         if (value > 6000)
