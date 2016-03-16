@@ -239,7 +239,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayList mlist = new ArrayList();
         DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
         DecimalFormat formatterint = new DecimalFormat("$#,###");
+        Double result = 0.0;
 
+
+        result = substruct_double(ChequesTotal,PayoutTotal);
+        result = substruct_double(result,ExpenceTotal);
 
         mlist.add("Float Amount\n"+formatterint.format(FloatAmount));
         mlist.add("Jobs\n"+NumberOfJobs.intValue() + "");
@@ -247,10 +251,11 @@ public class MainActivity extends AppCompatActivity {
         mlist.add("Payout Amount\n"+formatterint.format(PayoutTotal));
         mlist.add("Expenses Amount\n"+formatterdbl.format(ExpenceTotal));
         mlist.add("Money On Hand\n"+formatterdbl.format(MoneyOnHand));
+        mlist.add("\n"+formatterdbl.format(result));
 
 
-        mPlanetTitle = getResources().getStringArray(R.array.planets_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mlist));
+        //mPlanetTitle = getResources().getStringArray(R.array.planets_array);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mlist));
 
     };
 
