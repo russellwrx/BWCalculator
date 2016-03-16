@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.buttonReset);
         btnEXP = (Button) findViewById(R.id.buttonExp);
         btnFloat = (Button) findViewById(R.id.buttonFloat);
-        btnInfo = (Button) findViewById(R.id.buttonInfo);
+//        btnInfo = (Button) findViewById(R.id.buttonInfo);
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -145,8 +145,8 @@ public class MainActivity extends AppCompatActivity {
         btnReset.setOnClickListener(RussellClickLister);
         btnEXP.setOnClickListener(RussellClickLister);
         btnFloat.setOnClickListener(FloatAdjust);
-        btnInfo.setOnClickListener(AppInfo);
-        btnInfo.setOnLongClickListener(AppTest);
+//        btnInfo.setOnClickListener(AppInfo);
+//        btnInfo.setOnLongClickListener(AppTest);
 
 
         btnInc.setEnabled(false);
@@ -162,77 +162,77 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private  View.OnLongClickListener AppTest = (new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            JobRows_array = applicationVariables.getData(v.getContext());
-            RefreshScreen();
-            return false;
-        }
-    });
+//    private  View.OnLongClickListener AppTest = (new View.OnLongClickListener() {
+//        @Override
+//        public boolean onLongClick(View v) {
+//            JobRows_array = applicationVariables.getData(v.getContext());
+//            RefreshScreen();
+//            return false;
+//        }
+//    });
 
 
 
-    private View.OnClickListener AppInfo = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            final Dialog dialog = new Dialog(MainActivity.this);
-//            Window window = dialog.getWindow();
-            dialog.setTitle("");
-
-//            TextView title = new TextView(v.getContext());
-//            title.setText("Summary");
-//            title.setBackgroundColor(Color.BLACK);
-//            title.setPadding(10, 10, 10, 10);
-//            title.setGravity(Gravity.CENTER);
-//            title.setTextColor(Color.WHITE);
+//    private View.OnClickListener AppInfo = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
 //
-//            dialog.setTitle(title);
-
-            dialog.setContentView(R.layout.application_summary_dialog);
-//            window.setLayout(900,900);
-            dialog.show();
-
-            TextView startAmount = (TextView)dialog.findViewById(R.id.textViewStarting);
-            TextView numofJobs = (TextView)dialog.findViewById(R.id.textViewNumberOfJobs);
-            TextView cheques = (TextView)dialog.findViewById(R.id.textViewCheques);
-            TextView payout = (TextView)dialog.findViewById(R.id.textViewPayouts);
-            TextView expences = (TextView)dialog.findViewById(R.id.textViewExpence);
-            TextView moneyofhand = (TextView)dialog.findViewById(R.id.textViewMoneyOnHand);
-            TextView summary = (TextView)dialog.findViewById(R.id.textViewSummary);
-
-
-
-            Button btnOK = (Button)dialog.findViewById(R.id.buttonOK);
-
-            btnOK.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.cancel();
-                }
-            });
-
-
-            DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
-            DecimalFormat formatterint = new DecimalFormat("$#,###");
-
-
-            startAmount.setText(formatterint.format(FloatAmount));
-            numofJobs.setText(NumberOfJobs.intValue()+"");
-            cheques.setText(formatterdbl.format(ChequesTotal));
-            payout.setText(formatterint.format(PayoutTotal));
-            expences.setText(formatterdbl.format(ExpenceTotal));
-            moneyofhand.setText(formatterint.format(MoneyOnHand));
-
-            Double result = 0.0;
-
-            result = substruct_double(ChequesTotal,PayoutTotal);
-            result = substruct_double(result,ExpenceTotal);
-
-            summary.setText(formatterdbl.format(result));
-        }
-    };
+//            final Dialog dialog = new Dialog(MainActivity.this);
+////            Window window = dialog.getWindow();
+//            dialog.setTitle("");
+//
+////            TextView title = new TextView(v.getContext());
+////            title.setText("Summary");
+////            title.setBackgroundColor(Color.BLACK);
+////            title.setPadding(10, 10, 10, 10);
+////            title.setGravity(Gravity.CENTER);
+////            title.setTextColor(Color.WHITE);
+////
+////            dialog.setTitle(title);
+//
+//            dialog.setContentView(R.layout.application_summary_dialog);
+////            window.setLayout(900,900);
+//            dialog.show();
+//
+//            TextView startAmount = (TextView)dialog.findViewById(R.id.textViewStarting);
+//            TextView numofJobs = (TextView)dialog.findViewById(R.id.textViewNumberOfJobs);
+//            TextView cheques = (TextView)dialog.findViewById(R.id.textViewCheques);
+//            TextView payout = (TextView)dialog.findViewById(R.id.textViewPayouts);
+//            TextView expences = (TextView)dialog.findViewById(R.id.textViewExpence);
+//            TextView moneyofhand = (TextView)dialog.findViewById(R.id.textViewMoneyOnHand);
+//            TextView summary = (TextView)dialog.findViewById(R.id.textViewSummary);
+//
+//
+//
+//            Button btnOK = (Button)dialog.findViewById(R.id.buttonOK);
+//
+//            btnOK.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dialog.cancel();
+//                }
+//            });
+//
+//
+//            DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
+//            DecimalFormat formatterint = new DecimalFormat("$#,###");
+//
+//
+//            startAmount.setText(formatterint.format(FloatAmount));
+//            numofJobs.setText(NumberOfJobs.intValue()+"");
+//            cheques.setText(formatterdbl.format(ChequesTotal));
+//            payout.setText(formatterint.format(PayoutTotal));
+//            expences.setText(formatterdbl.format(ExpenceTotal));
+//            moneyofhand.setText(formatterint.format(MoneyOnHand));
+//
+//            Double result = 0.0;
+//
+//            result = substruct_double(ChequesTotal,PayoutTotal);
+//            result = substruct_double(result,ExpenceTotal);
+//
+//            summary.setText(formatterdbl.format(result));
+//        }
+//    };
 
 
     private void drawerList(){
@@ -472,6 +472,7 @@ public class MainActivity extends AppCompatActivity {
                                     NotesCount();
                                     applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
                                     CalculateTotals();
+                                    drawerList();
 
                                 }
                             })
@@ -584,15 +585,19 @@ public class MainActivity extends AppCompatActivity {
                 UserInput = CalcInput;
 
             else {
-                if (!UserInput.contains("."))   //Check if input has decimal point
-                    UserInput = UserInput + CalcInput;
+                if (!UserInput.contains(".")){   //Check if input has decimal point
+                    if (UserInput.length()<5)
+                        UserInput = UserInput + CalcInput;
+                }
                 else {
                     if (UserInput.length()-UserInput.indexOf(".")<3)  // Accept only two digits after decimal point
                         UserInput = UserInput + CalcInput;
+
                 }
 
             }
         }
+
 
         //String tmp = "<font color=#cc0029>Total: $</font><font color=#ffcc00>zweite Farbe</font>";
 
