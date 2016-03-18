@@ -11,11 +11,6 @@ public class Row {
     private Double Expence;
     private boolean Warning;
 
-//    private int notes1k;
-//    private int notes50;
-//    private int notes20;
-//    private int notes10;
-//    private int notes5;
 
     public void setAmount(Double amount){
         this.Amount = amount;
@@ -46,34 +41,4 @@ public class Row {
         //int intconv = (int) this.Payout;
         return  Payout.intValue()+"";
     }
-//    public void setNotes1k(int amount){
-//        this.notes1k=amount;
-//    }
-//    public void setNotes50(int amount){
-//        this.notes50=amount;
-//    }
-//    public void setNotes20(int amount){
-//        this.notes20=amount;
-//    }
-//    public void setNotes10(int amount){
-//        this.notes10=amount;
-//    }
-//    public void setNotes5(int amount){
-//        this.notes5=amount;
-//    }
-//    public int getNotes1k(){
-//        return this.notes1k;
-//    }
-//    public int getNotes50(){
-//        return this.notes50;
-//    }
-//    public int getNotes20(){
-//        return this.notes20;
-//    }
-//    public int getNotes10(){
-//        return this.notes10;
-//    }
-//    public int getNotes5(){
-//        return this.notes5;
-//    }
 }

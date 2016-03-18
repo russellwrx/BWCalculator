@@ -59,15 +59,17 @@ public class MainActivity extends AppCompatActivity {
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
-    Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal,FloatAmount=30550.0;
+    Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal;
+            //FloatAmount=30550.0;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
+    AppStoredValus appVariables;
     private ApplicationVariables applicationVariables;
 
     //drawer
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private String[] mPlanetTitle;
+//    private String[] mPlanetTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.JobRows_array = new ArrayList<Row>();
+        this.appVariables = new AppStoredValus();
         applicationVariables = new ApplicationVariables();
 
 
@@ -153,7 +156,9 @@ public class MainActivity extends AppCompatActivity {
         btnDec.setEnabled(false);
 
         JobRows_array = applicationVariables.getData(this);
-        FloatAmount = applicationVariables.getVariables(this);
+        appVariables = applicationVariables.getDataVariables(this);
+        //FloatAmount = applicationVariables.getVariables(this);
+
         RefreshScreen();
 
 
@@ -245,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
         result = substruct_double(ChequesTotal,PayoutTotal);
         result = substruct_double(result,ExpenceTotal);
 
-        mlist.add("Float Amount\n"+formatterint.format(FloatAmount));
+        mlist.add("Float Amount\n"+formatterint.format(appVariables.getFloatAmout()));
         mlist.add("Jobs\n"+NumberOfJobs.intValue() + "");
         mlist.add("Cheques Amount\n"+formatterdbl.format(ChequesTotal));
         mlist.add("Payout Amount\n"+formatterint.format(PayoutTotal));
@@ -263,30 +268,62 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener FloatAdjust = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-
+                String messageConfirm="";
                 if (UserInput!="0") {
+
+                    if (UserInput.indexOf(".")>0&&UserInput.length()!=UserInput.indexOf(".")){
+                        Integer flag = Integer.parseInt(UserInput.substring(UserInput.indexOf(".")+1));
+                        Integer value = Integer.parseInt(UserInput.substring(0,UserInput.indexOf(".")));
+
+                        switch (flag){
+                            case 2:
+                                appVariables.setNotes20(value);
+                                messageConfirm="Set number of $20 notes to: "+value;
+                                break;
+                            case 5:
+                                appVariables.setNotes5(value);
+                                messageConfirm="Set number of $5 notes to: "+value;
+                                break;
+                            case 1:
+                                appVariables.setNotes10(value);
+                                messageConfirm="Set number of $10 notes to: "+value;
+                                break;
+                            default:
+                                break;
+                        }
+
+                    } else {
+                        appVariables.setNotes1k(Integer.parseInt(UserInput));
+                        messageConfirm="Set number of $1000  to: "+UserInput;
+                    }
+
+
+
+
                     final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder
                             .setTitle("Adjust Starting Float")
-                            .setMessage("Set New Float Value: " + UserInput + "550")
+                            .setMessage(messageConfirm)
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
-                                    applicationVariables.saveData(v.getContext(), JobRows_array, FloatAmount);
+                            //        FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
+
+                                    applicationVariables.saveData(v.getContext(), JobRows_array, appVariables);
                                     RefreshScreen();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+           //                         Log.d("FloaAadjust:",UserInput.substring(UserInput.indexOf(".")+1)+"");
                                 }
                             })
                             .show();
 
 
-                    Log.d("float adjust:",Double.parseDouble(UserInput)-floor(Double.parseDouble(UserInput))+"");
+
 
                 }
         }
@@ -306,8 +343,12 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 JobRows_array.clear();
-                                FloatAmount=30550.0;
-                                applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
+                                //FloatAmount=30550.0;
+                                appVariables.setNotes1k(30);
+                                appVariables.setNotes20(20);
+                                appVariables.setNotes10(10);
+                                appVariables.setNotes5(10);
+                                applicationVariables.saveData(v.getContext(), JobRows_array,appVariables);
                                 RefreshScreen();
                             }
                         })
@@ -420,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
             currentRow.setPayout(0.0);
             JobRows_array.add(currentRow);
             NotesCount();
-            applicationVariables.saveData(this, JobRows_array,FloatAmount);
+            applicationVariables.saveData(this, JobRows_array,appVariables);
             RefreshScreen();
         }
     }
@@ -441,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
                 currentRow.setWarning(false);
             JobRows_array.add(currentRow);
             NotesCount();
-            applicationVariables.saveData(this, JobRows_array,FloatAmount);
+            applicationVariables.saveData(this, JobRows_array,appVariables);
             RefreshScreen();
         }
     }
@@ -477,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
                                     JobRows_array.remove(trcount.indexOf(v.getId()));
                                     trcount.remove(trcount.indexOf(v.getId()));
                                     NotesCount();
-                                    applicationVariables.saveData(v.getContext(), JobRows_array, FloatAmount);
+                                    applicationVariables.saveData(v.getContext(), JobRows_array, appVariables);
                                     CalculateTotals();
                                     drawerList();
 
@@ -650,18 +691,18 @@ public class MainActivity extends AppCompatActivity {
     private void NotesCount(){
 
 
-        this.notesThusdant=30.0;
+        this.notesThusdant=appVariables.getNotes1k().doubleValue();
         this.notesFifty =0.0;
-        this.notesTwenty=20.0;
-        this.notesTen=10.0;
-        this.notesFive=10.0;
+        this.notesTwenty=appVariables.getNotes20().doubleValue();
+        this.notesTen=appVariables.getNotes10().doubleValue();
+        this.notesFive=appVariables.getNotes5().doubleValue();
 
 
 
         double note1k,note50,note20,note10,note5;
 
 
-        this.notesThusdant=floor(FloatAmount/1000);
+    //    this.notesThusdant=floor(FloatAmount/1000);
 
         for ( Row row : JobRows_array ){
             double payout;
@@ -753,7 +794,7 @@ public class MainActivity extends AppCompatActivity {
                 NumberOfJobs+=1;
         }
 
-        MoneyOnHand=FloatAmount-PayoutTotal-ExpenceTotal;
+        MoneyOnHand=appVariables.getFloatAmout()-PayoutTotal-ExpenceTotal;
 
         //markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
         String strjobs,stramount,strfloat,strpayout,strexpences,strmoneyonhand;
@@ -761,7 +802,7 @@ public class MainActivity extends AppCompatActivity {
 
        // "+numcolor+"
 
-        strfloat = "Float<br><font color="+numcolor+"><b>"+FloatAmount+"</b></font>";
+        strfloat = "Float<br><font color="+numcolor+"><b>"+appVariables.getFloatAmout()+"</b></font>";
         strjobs = "Jobs<br><font color="+numcolor+"><b>"+NumberOfJobs.intValue()+"</b></font>";
         stramount = "Cheques<br><font color="+numcolor+"><b>"+ChequesTotal+"</b></font>";
         strpayout = "Payout<br><font color="+numcolor+"><b>"+PayoutTotal.intValue()+"</b></font>";

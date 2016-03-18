@@ -21,19 +21,18 @@ public class ApplicationVariables {
         super();
     }
 
-
-
-    public void saveData(Context context, ArrayList<Row> dataList, double startfloat){
+    public void saveData(Context context, ArrayList<Row> dataList, AppStoredValus storeValues){
         Gson gson = new Gson();
         String jsonObject = gson.toJson(dataList);
-        //Log.d("JSON WRITE: ", jsonObject);
+        String jaonObjectStore = gson.toJson(storeValues);
         //Save to SharedPreferences
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PREF_VAR,startfloat+"");
+        editor.putString(PREF_VAR,jaonObjectStore);
         editor.putString(PREF_KEY,jsonObject);
-       editor.commit();
+        editor.commit();
     }
+
 
     public ArrayList<Row> getData(Context context) {
         List<Row> datalist;
@@ -53,6 +52,23 @@ public class ApplicationVariables {
         }
 
     }
+
+    public AppStoredValus getDataVariables(Context context) {
+        AppStoredValus detailsvars  = new AppStoredValus();
+
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if (settings.contains(PREF_KEY)) {
+            String jsonObject = settings.getString(PREF_VAR, null);
+            Gson gson = new Gson();
+            AppStoredValus storedvariables = gson.fromJson(jsonObject, AppStoredValus.class);
+            return  storedvariables;
+        } else {
+            return detailsvars ;
+        }
+
+    }
+
+
 
     public Double getVariables(Context context){
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
