@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     String UserInput="",MarkupStr="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
     Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal;
-            //FloatAmount=30550.0;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
     AppStoredValus appVariables;
@@ -76,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.JobRows_array = new ArrayList<Row>();
-        this.appVariables = new AppStoredValus();
-        applicationVariables = new ApplicationVariables();
+        this.JobRows_array = new ArrayList<Row>();  // Job Row Class
+        this.appVariables = new AppStoredValus();  // Variables Class
+        applicationVariables = new ApplicationVariables();   //Store-Restore Values
 
 
 
@@ -148,21 +147,14 @@ public class MainActivity extends AppCompatActivity {
         btnReset.setOnClickListener(RussellClickLister);
         btnEXP.setOnClickListener(RussellClickLister);
         btnFloat.setOnClickListener(FloatAdjust);
-//        btnInfo.setOnClickListener(AppInfo);
-//        btnInfo.setOnLongClickListener(AppTest);
-
 
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
 
-        JobRows_array = applicationVariables.getData(this);
-        appVariables = applicationVariables.getDataVariables(this);
-        //FloatAmount = applicationVariables.getVariables(this);
+        JobRows_array = applicationVariables.getData(this);   // Restore Rows
+        appVariables = applicationVariables.getDataVariables(this);  //Restore Variables
 
         RefreshScreen();
-
-
-
     }
 
 
