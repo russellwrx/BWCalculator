@@ -54,7 +54,7 @@ import static java.lang.Math.round;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnInc,btnDec,btnReset,btnEXP,btnInfo;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnInc,btnDec,btnReset,btnEXP,btnSetting;
     TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH,txtExp,txtFloat;
     TextView txt1k,txt50,txt20,txt10,txt5;
     String UserInput="",MarkupStr="";
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.buttonReset);
         btnEXP = (Button) findViewById(R.id.buttonExp);
         btnFloat = (Button) findViewById(R.id.buttonFloat);
-//        btnInfo = (Button) findViewById(R.id.buttonInfo);
+        btnSetting = (Button) findViewById(R.id.buttonSetting);
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -284,6 +284,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             })
                             .show();
+
+
+                    Log.d("float adjust:",Double.parseDouble(UserInput)-floor(Double.parseDouble(UserInput))+"");
+
                 }
         }
     };
@@ -380,6 +384,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.buttonExp:
                     AddExpRow();
                     break;
+                case R.id.buttonSetting:
+//                    setContentView(R.layout.float_adjust);
+                    break;
                 default:
                     break;
             }
@@ -470,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
                                     JobRows_array.remove(trcount.indexOf(v.getId()));
                                     trcount.remove(trcount.indexOf(v.getId()));
                                     NotesCount();
-                                    applicationVariables.saveData(v.getContext(), JobRows_array,FloatAmount);
+                                    applicationVariables.saveData(v.getContext(), JobRows_array, FloatAmount);
                                     CalculateTotals();
                                     drawerList();
 
@@ -497,11 +504,11 @@ public class MainActivity extends AppCompatActivity {
             tr.setId(count);
             if (!row.getWarinig())
                 if (row.getExpence()!=0)
-                    tr.setBackgroundColor(Color.parseColor("#FFFBCA")); //Darkerblue
+                    tr.setBackgroundColor(getResources().getColor(R.color.gridExpense)); //Darkerblue
                 else
-                tr.setBackgroundColor(Color.parseColor("#A6FFEF"));  //Blue
+                tr.setBackgroundColor(getResources().getColor(R.color.gridNormal));  //Blue
             else
-                tr.setBackgroundColor(Color.parseColor("#52FFE0"));  //Yellow
+                tr.setBackgroundColor(getResources().getColor(R.color.gridWarning));  //Yellow
 
             lp.setMargins(0, 0, 50, 0);
             tr.setLayoutParams(lp);

@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="LightGrey">#ccc</color>
+    <color name="gridNormal">#d2f2ff</color>
+    <color name="gridWarning">#aee8ff</color>
+    <color name="gridExpense">#fffcec</color>
 </resources>
