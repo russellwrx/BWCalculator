@@ -36,18 +36,22 @@ public class ApplicationVariables {
 
     public ArrayList<Row> getData(Context context) {
         List<Row> datalist;
+        ArrayList<Row> resetArray = new ArrayList<Row>();
 
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         if (settings.contains(PREF_KEY)) {
             String jsonObject = settings.getString(PREF_KEY, null);
             Gson gson = new Gson();
-            Row[] rows = gson.fromJson(jsonObject, Row[].class);
-            datalist = Arrays.asList(rows);
-            datalist = new ArrayList<Row>(datalist);
-            //    Log.d("JSON READ: ", jsonObject);
-            return  (ArrayList<Row>) datalist;
+            try {
+                Row[] rows = gson.fromJson(jsonObject, Row[].class);
+                datalist = Arrays.asList(rows);
+                datalist = new ArrayList<Row>(datalist);
+                return  (ArrayList<Row>) datalist;
+            } catch (Exception e){
+                return resetArray;
+            }
+
             } else {
-            ArrayList<Row> resetArray = new ArrayList<Row>();
             return resetArray;
         }
 
@@ -56,12 +60,18 @@ public class ApplicationVariables {
     public AppStoredValus getDataVariables(Context context) {
         AppStoredValus detailsvars  = new AppStoredValus();
 
+
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         if (settings.contains(PREF_KEY)) {
             String jsonObject = settings.getString(PREF_VAR, null);
             Gson gson = new Gson();
-            AppStoredValus storedvariables = gson.fromJson(jsonObject, AppStoredValus.class);
-            return  storedvariables;
+            try {
+                AppStoredValus storedvariables = gson.fromJson(jsonObject, AppStoredValus.class);
+                return  storedvariables;
+            } catch (Exception e){
+                return detailsvars;
+            }
+            //return  storedvariables;
         } else {
             return detailsvars ;
         }
@@ -70,14 +80,14 @@ public class ApplicationVariables {
 
 
 
-    public Double getVariables(Context context){
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        if (settings.contains(PREF_VAR)){
-            String startFloat = settings.getString(PREF_VAR,null);
-            return Double.parseDouble(startFloat);
-        }
-        return 30550.0;
-    }
+//    public Double getVariables(Context context){
+//        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+//        if (settings.contains(PREF_VAR)){
+//            String startFloat = settings.getString(PREF_VAR,null);
+//            return Double.parseDouble(startFloat);
+//        }
+//        return 30550.0;
+//    }
 
 
     public void removekey(Context context,String remove_key){

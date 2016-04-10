@@ -14,7 +14,7 @@ public class Row {
 
     public void setAmount(Double amount){
         this.Amount = amount;
-        Log.d("Russell", "Row:" + this.Amount);
+        //Log.d("Russell", "Row:" + this.Amount);
     }
     public void setPayout(Double payout){
         this.Payout = payout;

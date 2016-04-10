@@ -3,8 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="LightGrey">#ccc</color>
-    <color name="gridNormal">#d2f2ff</color>
-    <color name="gridWarning">#aee8ff</color>
-    <color name="gridExpense">#fffcec</color>
+    <color name="LightGrey">#8f8f8f</color>
+    <color name="gridNormal">#ffffff</color>
+    <color name="gridWarning">#69d5ff</color>
+    <color name="gridExpense">#ffe86b</color>
+    <color name="background_plus_button">#3d5e3a</color>
+    <color name="mainbackground">@color/material_grey_900</color>
 </resources>

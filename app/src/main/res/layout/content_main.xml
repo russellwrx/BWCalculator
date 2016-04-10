@@ -19,15 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="5"
-        android:background="#d6e1ff77"
+        android:background="@color/material_grey_900"
         android:baselineAligned="false">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#d6e1ff77">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -38,8 +37,7 @@
                 <ScrollView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/scrollView"
-                    android:background="#FFFFFFFF">
+                    android:id="@+id/scrollView">
 
                     <TableLayout
                         android:layout_width="match_parent"
@@ -57,8 +55,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#ffffff">
+            android:layout_weight="1">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
@@ -78,8 +75,8 @@
                     android:layout_gravity="center_vertical"
                     android:textIsSelectable="true"
                     android:gravity="center_vertical|right"
-                    android:background="#ffffff"
-                    android:paddingRight="16dp" />
+                    android:paddingRight="16dp"
+                    android:textColor="@color/material_grey_100" />
 
             </LinearLayout>
 
@@ -99,7 +96,6 @@
                     android:layout_gravity="right"
                     android:gravity="right"
                     android:layout_weight="2"
-                    android:background="#ffffffff"
                     android:paddingRight="16dp"
                     android:textSize="30sp"
                     android:textIsSelectable="false" />
@@ -109,13 +105,13 @@
                     android:layout_height="fill_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:id="@+id/textViewMarkup"
-                    android:background="#ffffff"
                     android:gravity="right"
                     android:scrollbars="vertical"
                     android:maxLines = "20"
                     android:scrollIndicators="left"
                     android:layout_weight="1"
-                    android:paddingRight="16dp" />
+                    android:paddingRight="16dp"
+                    android:textColor="#ffffff" />
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
@@ -124,9 +120,9 @@
                     android:id="@+id/buttonBS"
                     android:background="@android:drawable/ic_input_delete"
                     android:allowUndo="false"
-                    android:backgroundTint="@android:color/black"
                     android:layout_weight="2"
-                    android:layout_marginRight="16dp" />
+                    android:layout_marginRight="16dp"
+                    android:backgroundTint="@android:color/darker_gray" />
 
             </LinearLayout>
 
@@ -141,7 +137,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
-        android:background="#dedede">
+        android:background="#7b7b7b">
 
         <TextView
             android:layout_width="wrap_content"
@@ -152,7 +148,7 @@
             android:gravity="center"
             android:id="@+id/textViewFloat"
             android:layout_weight="1"
-            android:background="#ffffff" />
+            android:background="#7b7b7b" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -162,7 +158,7 @@
             android:id="@+id/textViewJobs"
             android:gravity="center"
             android:textSize="10dp"
-            android:background="#ffffff"
+            android:background="#7b7b7b"
             android:layout_weight="1" />
 
         <TextView
@@ -173,7 +169,7 @@
             android:id="@+id/textViewCheques"
             android:gravity="center|fill_vertical"
             android:textSize="10dp"
-            android:background="#ffffff"
+            android:background="#7b7b7b"
             android:layout_weight="1" />
 
         <TextView
@@ -184,7 +180,7 @@
             android:id="@+id/textViewPayouts"
             android:gravity="center|fill_vertical"
             android:textSize="10dp"
-            android:background="#ffffff"
+            android:background="#7b7b7b"
             android:layout_weight="1" />
 
         <TextView
@@ -195,7 +191,7 @@
             android:id="@+id/textViewExpence"
             android:textSize="10dp"
             android:gravity="center|center_vertical"
-            android:background="#ffffff"
+            android:background="#7b7b7b"
             android:layout_weight="1" />
 
         <TextView
@@ -206,7 +202,7 @@
             android:id="@+id/textViewOnHand"
             android:gravity="center"
             android:textSize="10dp"
-            android:background="#ffffff"
+            android:background="#7b7b7b"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -231,7 +227,7 @@
                 android:text="C"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="@dimen/ButtonText10"
-                android:background="@color/LightGrey"
+                android:background="@color/button_material_dark"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp" />
@@ -243,7 +239,7 @@
                 android:layout_weight="1"
                 android:textSize="20dp"
                 android:text="\u2b06"
-                android:background="@color/LightGrey"
+                android:background="@color/button_material_dark"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp" />
@@ -258,7 +254,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
-                android:background="@color/LightGrey" />
+                android:background="@color/button_material_dark" />
 
             <Button
                 android:layout_width="match_parent"
@@ -267,7 +263,7 @@
                 android:id="@+id/buttonMultiPlus"
                 android:layout_weight="1"
                 android:textSize="@dimen/ButtonText"
-                android:background="@color/LightGrey"
+                android:background="@color/button_material_dark"
                 android:layout_marginBottom="1dp"
                 android:textColor="@android:color/holo_green_dark"
                 android:layout_marginTop="1dp" />
@@ -294,9 +290,10 @@
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
                     style="ndroid:style/ButtonBar"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -305,9 +302,10 @@
                     android:id="@+id/button4"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -316,9 +314,10 @@
                     android:id="@+id/button7"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -327,8 +326,9 @@
                     android:textSize="@dimen/ButtonText"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp"
-                    android:background="@android:color/background_light"
-                    android:id="@+id/buttonSetting" />
+                    android:background="@color/background_material_dark"
+                    android:id="@+id/buttonSetting"
+                    android:textColor="@color/LightGrey" />
 
             </LinearLayout>
 
@@ -345,9 +345,10 @@
                     android:id="@+id/button2"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp" />
+                    android:layout_marginRight="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -356,9 +357,10 @@
                     android:id="@+id/button5"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -367,9 +369,10 @@
                     android:id="@+id/button8"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -378,9 +381,10 @@
                     android:id="@+id/button0"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
             </LinearLayout>
 
@@ -397,9 +401,10 @@
                     android:id="@+id/button3"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -408,9 +413,10 @@
                     android:id="@+id/button6"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp" />
+                    android:layout_marginRight="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -419,9 +425,10 @@
                     android:id="@+id/button9"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -430,9 +437,10 @@
                     android:id="@+id/buttonDot"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/background_light"
+                    android:background="@color/background_material_dark"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp" />
+                    android:layout_marginBottom="1dp"
+                    android:textColor="@color/LightGrey" />
 
             </LinearLayout>
 
@@ -449,9 +457,9 @@
                     android:id="@+id/buttonPlus"
                     android:layout_weight="1"
                     android:textSize="@dimen/ButtonText"
-                    android:background="@android:color/holo_green_dark"
                     android:layout_marginBottom="1dp"
-                    android:textColor="@android:color/background_light" />
+                    android:textColor="@android:color/holo_green_dark"
+                    android:background="@color/background_plus_button" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -460,7 +468,7 @@
                     android:layout_weight="1"
                     android:textSize="12dp"
                     android:text="expense"
-                    android:background="@color/LightGrey"
+                    android:background="@color/button_material_dark"
                     android:layout_marginBottom="1dp"
                     android:textColor="#080043" />
 
@@ -471,7 +479,7 @@
                     android:layout_weight="1"
                     android:textSize="12dp"
                     android:text="Float"
-                    android:background="@color/LightGrey"
+                    android:background="@color/button_material_dark"
                     android:layout_marginBottom="1dp"
                     android:textColor="@android:color/holo_orange_dark" />
 
@@ -483,7 +491,7 @@
                     android:layout_weight="1"
                     android:textSize="12dp"
                     android:longClickable="true"
-                    android:background="@color/LightGrey"
+                    android:background="@color/button_material_dark"
                     android:layout_marginBottom="1dp"
                     android:textColor="@android:color/holo_red_dark" />
 

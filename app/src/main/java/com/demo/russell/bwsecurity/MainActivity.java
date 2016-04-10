@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.renderscript.ScriptGroup;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -151,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
 
-        JobRows_array = applicationVariables.getData(this);   // Restore Rows
-        appVariables = applicationVariables.getDataVariables(this);  //Restore Variables
+
+            JobRows_array = applicationVariables.getData(this);   // Restore Rows
+            appVariables = applicationVariables.getDataVariables(this);  //Restore Variables
 
         RefreshScreen();
     }
@@ -236,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList mlist = new ArrayList();
         DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
         DecimalFormat formatterint = new DecimalFormat("$#,###");
-        Double result = 0.0;
+        Double result;
 
 
         result = substruct_double(ChequesTotal,PayoutTotal);
@@ -438,9 +440,9 @@ public class MainActivity extends AppCompatActivity {
         String outstring;
 
         if (ActionOutput.intValue()!=ActionOutputOrig.intValue())
-            outstring="<b>"+ActionOutput+"</b>";
+            outstring="<font color='red'>"+ActionOutput+"</fonts>";
         else
-            outstring="<font color='#EE0000'>"+ActionOutput+"</fonts>";
+            outstring="<font color='yellow'>"+ActionOutput+"</fonts>";
         txtOutput.setText(Html.fromHtml(outstring));
     }
 
@@ -533,16 +535,18 @@ public class MainActivity extends AppCompatActivity {
 //
 
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
-
+            Integer rowColor = 0;
             tr.setId(count);
             if (!row.getWarinig())
                 if (row.getExpence()!=0)
-                    tr.setBackgroundColor(getResources().getColor(R.color.gridExpense)); //Darkerblue
+                    rowColor = (getResources().getColor(R.color.gridExpense)); //Darkerblue
                 else
-                tr.setBackgroundColor(getResources().getColor(R.color.gridNormal));  //Blue
+                    rowColor = (getResources().getColor(R.color.gridNormal));  //Blue
             else
-                tr.setBackgroundColor(getResources().getColor(R.color.gridWarning));  //Yellow
+                rowColor = (getResources().getColor(R.color.gridWarning));  //Yellow
 
+    //        tr.setBackgroundColor(Color.DKGRAY);
+            tr.setBackgroundColor(ContextCompat.getColor(this,R.color.mainbackground));
             lp.setMargins(0, 0, 50, 0);
             tr.setLayoutParams(lp);
 
@@ -551,7 +555,8 @@ public class MainActivity extends AppCompatActivity {
 
             labelTV.setId(10 + count);
             labelTV.setText(String.format("$%8.2f", row.getAmount()));
-            labelTV.setTextColor(Color.BLACK);
+
+            labelTV.setTextColor(rowColor);
             labelTV.setGravity(Gravity.RIGHT);
             labelTV.setTextSize(16);
 
@@ -568,7 +573,8 @@ public class MainActivity extends AppCompatActivity {
                 valueTV.setText("$ "+row.getExpence());
             else
                 valueTV.setText("$ "+row.getPayoutString());
-            valueTV.setTextColor(Color.BLACK);
+
+            valueTV.setTextColor(rowColor);
             valueTV.setGravity(Gravity.RIGHT);
             valueTV.setTextSize(16);
             lp.setMargins(60, 0, 0, 0);
@@ -618,6 +624,7 @@ public class MainActivity extends AppCompatActivity {
         else if (CalcInput.equals("MP")) {
             ActionTotal += Double.parseDouble(UserInput);
             MarkupStr +=UserInput+"<br><font color='#167BFF'>+</font>";
+//            MarkupStr +=UserInput+"<br><font color='#FFFFFF'>+</font>";
             UserInput = "0";
         }
         else {
@@ -662,9 +669,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void input_section_refresh(String s_input, String s_output, String s_markup, String s_total){
 
+//        String outputColor;
 
         if (Double.parseDouble(s_output)>0)
-            s_output="<font color=#cc0029>"+s_output+"</font>";
+            s_output="<font color='yellow'>"+s_output+"</font>";
         else
             s_output="";
 
@@ -790,8 +798,8 @@ public class MainActivity extends AppCompatActivity {
 
         //markup = MarkupStr + "<font color='#EE0000'>+</font>" + UserInput;
         String strjobs,stramount,strfloat,strpayout,strexpences,strmoneyonhand;
-        String numcolor = "'#0F1340'";
-
+//        String numcolor = "'#0F1340'";
+        String numcolor = "'#000000'";
        // "+numcolor+"
 
         strfloat = "Float<br><font color="+numcolor+"><b>"+appVariables.getFloatAmout()+"</b></font>";
