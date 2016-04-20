@@ -12,10 +12,8 @@ public class Row {
     private boolean Warning;
 
 
-    public void setAmount(Double amount){
-        this.Amount = amount;
-        //Log.d("Russell", "Row:" + this.Amount);
-    }
+
+    public void setAmount(Double amount) {this.Amount = amount; }
     public void setPayout(Double payout){
         this.Payout = payout;
     }
@@ -37,8 +35,6 @@ public class Row {
     public boolean getWarinig(){
         return this.Warning;
     }
-    public String getPayoutString(){
-        //int intconv = (int) this.Payout;
-        return  Payout.intValue()+"";
+    public String getPayoutString(){      return  Payout.intValue()+"";
     }
 }

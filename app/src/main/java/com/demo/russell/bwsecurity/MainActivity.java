@@ -20,6 +20,7 @@ import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -329,10 +330,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onLongClick(final View v) {
             if (v.getId()==R.id.buttonReset){
-                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(),AlertDialog.THEME_HOLO_DARK);
+                TextView dialogText = new TextView(v.getContext());
+                dialogText.setText("Reset?");
+                dialogText.setGravity(Gravity.CENTER);
+                dialogText.setTextColor(Color.WHITE);
                 builder
-                        .setTitle("Reset Application")
-                        .setMessage("Are you sure?")
+                        .setTitle("Application Rest")
+                        .setView(dialogText)
+                        .setMessage("")
                         .setIcon(android.R.drawable.ic_delete)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -490,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
 
         tl.removeAllViews();
 
-        for ( Row row : JobRows_array ){
+        for ( final Row row : JobRows_array ){
             final TableRow tr = new TableRow(this);
 
             trcount.add(count);
@@ -501,9 +507,23 @@ public class MainActivity extends AppCompatActivity {
                     v.setBackgroundColor(Color.RED);
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(),AlertDialog.THEME_HOLO_DARK);
+                    //final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    TextView dialogMSG = new TextView(v.getContext());
+                    String msgStr;
+                    if (row.getExpence()==0)
+                        msgStr = "\nDetails: $ " + row.getAmount() + " - $ " + row.getPayout();
+                    else
+                        msgStr = "\nExpense: $ " + row.getExpence();
+                    msgStr += "\nDELETE?\n";
+                    dialogMSG.setText(msgStr);
+                    dialogMSG.setGravity(Gravity.CENTER);
+                    dialogMSG.setTextColor(Color.WHITE);
+                    //dialogMSG.setBackgroundColor(Color.BLACK);
                     builder
+
+                            .setView(dialogMSG)
                             .setTitle("Delete Row: " + (trcount.indexOf(v.getId())+1))
-                            .setMessage("Are you sure?")
+                            //.setMessage("")
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -521,7 +541,7 @@ public class MainActivity extends AppCompatActivity {
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    v.setBackgroundColor(Color.parseColor("#A6FFEF"));
+                                    v.setBackgroundColor(ContextCompat.getColor(v.getContext(),R.color.mainbackground));
                                 }
                             })
                             .show();
