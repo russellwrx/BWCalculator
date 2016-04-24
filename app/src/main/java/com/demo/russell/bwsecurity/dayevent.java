@@ -5,11 +5,6 @@ package com.demo.russell.bwsecurity;
  */
 public class dayevent {
     private Integer id;
-    private String totalJobs;
-    private String totalAmount;
-    private String totalPayout;
-    private String totalExpenses;
-    private String moneyOnHand;
-    private String startAmount;
-
+    private Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal;
+    private Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
 }
