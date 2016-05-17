@@ -275,11 +275,19 @@ public class MainActivity extends AppCompatActivity {
                                 appVariables.setNotes20(value);
                                 messageConfirm="Set number of $20 notes to: "+value;
                                 break;
+                            case 20:
+                                appVariables.setNotes20(value);
+                                messageConfirm="Set number of $20 notes to: "+value;
+                                break;
                             case 5:
                                 appVariables.setNotes5(value);
                                 messageConfirm="Set number of $5 notes to: "+value;
                                 break;
                             case 1:
+                                appVariables.setNotes10(value);
+                                messageConfirm="Set number of $10 notes to: "+value;
+                                break;
+                            case 10:
                                 appVariables.setNotes10(value);
                                 messageConfirm="Set number of $10 notes to: "+value;
                                 break;
@@ -536,6 +544,12 @@ public class MainActivity extends AppCompatActivity {
                                     CalculateTotals();
                                     drawerList();
 
+                                }
+                            })
+                            .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    v.setBackgroundColor(ContextCompat.getColor(v.getContext(),R.color.mainbackground));
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
