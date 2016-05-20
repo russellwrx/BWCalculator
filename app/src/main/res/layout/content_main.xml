@@ -527,7 +527,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
 
                 >
@@ -558,7 +558,8 @@
                     android:text="0"
                     android:id="@+id/textView50"
                     android:gravity="center_vertical|center_horizontal"
-                    android:background="#cec059" />
+                    android:background="#cec059"
+                    android:layout_gravity="center" />
             </LinearLayout>
 
             <LinearLayout
@@ -574,7 +575,8 @@
                     android:text="20"
                     android:id="@+id/textView20"
                     android:gravity="center_vertical|center_horizontal"
-                    android:background="#bd5043" />
+                    android:background="#bd5043"
+                    android:layout_gravity="center" />
             </LinearLayout>
 
             <LinearLayout
