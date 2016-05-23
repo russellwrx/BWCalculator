@@ -68,9 +68,12 @@ public class MainActivity extends AppCompatActivity {
     private ApplicationVariables applicationVariables;
 
     //drawer
-    private DrawerLayout mDrawerLayout;
+//    private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-//    private String[] mPlanetTitle;
+
+    ArrayList<SummaryItem> rowitem;
+    UserAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
         btnFloat = (Button) findViewById(R.id.buttonFloat);
         btnSetting = (Button) findViewById(R.id.buttonSetting);
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
         btn0.setOnClickListener(RussellClickLister);
         btn1.setOnClickListener(RussellClickLister);
         btn2.setOnClickListener(RussellClickLister);
@@ -157,105 +157,45 @@ public class MainActivity extends AppCompatActivity {
             JobRows_array = applicationVariables.getData(this);   // Restore Rows
             appVariables = applicationVariables.getDataVariables(this);  //Restore Variables
 
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        rowitem = new ArrayList<SummaryItem>();
+        adapter = new UserAdapter(this, rowitem);
+
+        mDrawerList.setAdapter(adapter);
+
         RefreshScreen();
     }
 
 
-
-//    private  View.OnLongClickListener AppTest = (new View.OnLongClickListener() {
-//        @Override
-//        public boolean onLongClick(View v) {
-//            JobRows_array = applicationVariables.getData(v.getContext());
-//            RefreshScreen();
-//            return false;
-//        }
-//    });
-
-
-
-//    private View.OnClickListener AppInfo = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//
-//            final Dialog dialog = new Dialog(MainActivity.this);
-////            Window window = dialog.getWindow();
-//            dialog.setTitle("");
-//
-////            TextView title = new TextView(v.getContext());
-////            title.setText("Summary");
-////            title.setBackgroundColor(Color.BLACK);
-////            title.setPadding(10, 10, 10, 10);
-////            title.setGravity(Gravity.CENTER);
-////            title.setTextColor(Color.WHITE);
-////
-////            dialog.setTitle(title);
-//
-//            dialog.setContentView(R.layout.application_summary_dialog);
-////            window.setLayout(900,900);
-//            dialog.show();
-//
-//            TextView startAmount = (TextView)dialog.findViewById(R.id.textViewStarting);
-//            TextView numofJobs = (TextView)dialog.findViewById(R.id.textViewNumberOfJobs);
-//            TextView cheques = (TextView)dialog.findViewById(R.id.textViewCheques);
-//            TextView payout = (TextView)dialog.findViewById(R.id.textViewPayouts);
-//            TextView expences = (TextView)dialog.findViewById(R.id.textViewExpence);
-//            TextView moneyofhand = (TextView)dialog.findViewById(R.id.textViewMoneyOnHand);
-//            TextView summary = (TextView)dialog.findViewById(R.id.textViewSummary);
-//
-//
-//
-//            Button btnOK = (Button)dialog.findViewById(R.id.buttonOK);
-//
-//            btnOK.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    dialog.cancel();
-//                }
-//            });
-//
-//
-//            DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
-//            DecimalFormat formatterint = new DecimalFormat("$#,###");
-//
-//
-//            startAmount.setText(formatterint.format(FloatAmount));
-//            numofJobs.setText(NumberOfJobs.intValue()+"");
-//            cheques.setText(formatterdbl.format(ChequesTotal));
-//            payout.setText(formatterint.format(PayoutTotal));
-//            expences.setText(formatterdbl.format(ExpenceTotal));
-//            moneyofhand.setText(formatterint.format(MoneyOnHand));
-//
-//            Double result = 0.0;
-//
-//            result = substruct_double(ChequesTotal,PayoutTotal);
-//            result = substruct_double(result,ExpenceTotal);
-//
-//            summary.setText(formatterdbl.format(result));
-//        }
-//    };
-
-
     private void drawerList(){
-        ArrayList mlist = new ArrayList();
+
+//        Toast toast = Toast.makeText(getApplicationContext(), "Long Press Reset",Toast.LENGTH_SHORT);
+//        toast.show();
+
         DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
         DecimalFormat formatterint = new DecimalFormat("$#,###");
         Double result;
 
-
         result = substruct_double(ChequesTotal,PayoutTotal);
         result = substruct_double(result,ExpenceTotal);
 
-        mlist.add("Float Amount\n"+formatterint.format(appVariables.getFloatAmout()));
-        mlist.add("Jobs\n"+NumberOfJobs.intValue() + "");
-        mlist.add("Cheques Amount\n"+formatterdbl.format(ChequesTotal));
-        mlist.add("Payout Amount\n"+formatterint.format(PayoutTotal));
-        mlist.add("Expenses Amount\n"+formatterdbl.format(ExpenceTotal));
-        mlist.add("Money On Hand\n"+formatterdbl.format(MoneyOnHand));
-        mlist.add("\n"+formatterdbl.format(result));
+        SummaryItem dfloat = new SummaryItem("Float",formatterint.format(appVariables.getFloatAmout()));
+        SummaryItem djobs = new SummaryItem("Jobs",NumberOfJobs.intValue() + "");
+        SummaryItem dcheque = new SummaryItem("Cheques",formatterdbl.format(ChequesTotal));
+        SummaryItem dpay = new SummaryItem("Payout",formatterint.format(PayoutTotal));
+        SummaryItem dexpens = new SummaryItem("Expenses",formatterdbl.format(ExpenceTotal));
+        SummaryItem dmoh = new SummaryItem("Money On Hand",formatterdbl.format(MoneyOnHand));
+        SummaryItem dprofit = new SummaryItem("--------",formatterdbl.format(result));
 
-
-        //mPlanetTitle = getResources().getStringArray(R.array.planets_array);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mlist));
+        adapter.clear();
+        adapter.add(dfloat);
+        adapter.add(djobs);
+        adapter.add(dcheque);
+        adapter.add(dpay);
+        adapter.add(dexpens);
+        adapter.add(dmoh);
+        adapter.add(dprofit);
 
     };
 
@@ -264,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(final View v) {
                 String messageConfirm="";
-                if (UserInput!="0") {
+                if (!UserInput.equals("0")) {
 
                     if (UserInput.indexOf(".")>0&&UserInput.length()!=UserInput.indexOf(".")){
                         Integer flag = Integer.parseInt(UserInput.substring(UserInput.indexOf(".")+1));
@@ -643,7 +583,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void CalculatorInput(String CalcInput){
         if (CalcInput.equals("BS")) {
-            if (UserInput.length()>1 && UserInput!="0")
+            if (UserInput.length()>1 && !UserInput.equals("0"))
                 UserInput = UserInput.substring(0, UserInput.length() - 1);
             else
                 UserInput = "0";
