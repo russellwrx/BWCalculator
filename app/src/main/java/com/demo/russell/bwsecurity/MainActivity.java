@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnBS,btnDot,btnClear,btnMP,btnFloat,btnPlus,btnInc,btnDec,btnReset,btnEXP,btnSetting;
     TextView txtInput,txtOutput,txtMinput,txtMarkup,txtCheques,txtPayout,txtJobs,txtMOH,txtExp,txtFloat;
     TextView txt1k,txt50,txt20,txt10,txt5;
-    String UserInput="",MarkupStr="";
+    String UserInput="",MarkupStr="",PayoutInput="";
     Double ActionTotal=0.0,ActionOutput=0.0,ActionOutputOrig=0.0;
+    Boolean PayoutChange=false;
     Double NumberOfJobs,ChequesTotal,PayoutTotal,MoneyOnHand,ExpenceTotal;
     Double notesTen,notesFifty,notesTwenty,notesThusdant,notesFive;
     ArrayList<Row> JobRows_array;
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         btnReset.setOnClickListener(RussellClickLister);
         btnEXP.setOnClickListener(RussellClickLister);
         btnFloat.setOnClickListener(FloatAdjust);
+        txtOutput.setOnLongClickListener(ChangePayoutBig);
 
         btnInc.setEnabled(false);
         btnDec.setEnabled(false);
@@ -199,6 +201,19 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    private  View.OnLongClickListener ChangePayoutBig = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+//            Toast toast = Toast.makeText(getApplicationContext(), "Long Press",Toast.LENGTH_SHORT);
+//            toast.show();
+            String outstring;
+            PayoutChange=true;
+            PayoutInput = txtOutput.getText().toString();
+            outstring="<font color='red'>"+Double.valueOf(ActionOutput).intValue()+"</fonts>";
+            txtOutput.setText(Html.fromHtml(outstring));
+            return false;
+        }
+    };
 
     private View.OnClickListener FloatAdjust = new View.OnClickListener() {
         @Override
@@ -386,19 +401,21 @@ public class MainActivity extends AppCompatActivity {
     private void AdjustOutput(String action){
         if (action.equals("inc")){
             ActionOutput+=5.0;
-        } else {
+        } else if (action.equals("dec")){
             ActionOutput-=5.0;
         }
+
         //txtOutput.setText(Html.fromHtml("Payout: $" + "<font color='#EE0000'><b>"+Output(UserInput, ActionTotal).intValue()+"</b></font>"));
 
         String outstring;
 
         if (ActionOutput.intValue()!=ActionOutputOrig.intValue())
-            outstring="<font color='red'>"+ActionOutput+"</fonts>";
+            outstring="<font color='red'>"+Double.valueOf(ActionOutput).intValue()+"</fonts>";
         else
-            outstring="<font color='yellow'>"+ActionOutput+"</fonts>";
+            outstring="<font color='yellow'>"+Double.valueOf(ActionOutput).intValue()+"</fonts>";
         txtOutput.setText(Html.fromHtml(outstring));
     }
+
 
 
     private void AddExpRow(){
@@ -453,13 +470,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View v) {
                     v.setBackgroundColor(Color.RED);
-
+                    DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
                     final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(),AlertDialog.THEME_HOLO_DARK);
                     //final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     TextView dialogMSG = new TextView(v.getContext());
                     String msgStr;
                     if (row.getExpence()==0)
-                        msgStr = "\nDetails: $ " + row.getAmount() + " - $ " + row.getPayout();
+                        msgStr = "\nDetails: $ " + formatterdbl.format(row.getAmount()) + " - $ " + row.getPayout();
                     else
                         msgStr = "\nExpense: $ " + row.getExpence();
                     msgStr += "\nDELETE?\n";
@@ -573,8 +590,10 @@ public class MainActivity extends AppCompatActivity {
         ActionTotal = 0.0;
         ActionOutput = 0.0;
         MarkupStr = "";
+        PayoutInput = "";
+        PayoutChange = false;
 
-        input_section_refresh("0","0","","");
+        input_section_refresh("0","0","",0.0);
         CalculateTotals();
         drawerList();
     }
@@ -582,71 +601,94 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void CalculatorInput(String CalcInput){
-        if (CalcInput.equals("BS")) {
-            if (UserInput.length()>1 && !UserInput.equals("0"))
-                UserInput = UserInput.substring(0, UserInput.length() - 1);
-            else
+        if (PayoutChange) {
+            if (CalcInput.equals("BS")) {
+                if (PayoutInput.length()>1 && !PayoutInput.equals("0"))
+                    PayoutInput = PayoutInput.substring(0,PayoutInput.length()-1);
+                else
+                    PayoutInput = "0";
+            } else if (CalcInput.equals("C")){
                 UserInput = "0";
-        } else if (CalcInput.equals(".")){
-            if (!UserInput.contains("."))
-                UserInput = UserInput + CalcInput;
-        } else if (CalcInput.equals("C")) {
-            UserInput = "0";
-            ActionTotal = 0.0;
-            MarkupStr = "";
-        }
-        else if (CalcInput.equals("MP")) {
-            ActionTotal += Double.parseDouble(UserInput);
-            MarkupStr +=UserInput+"<br><font color='#167BFF'>+</font>";
-//            MarkupStr +=UserInput+"<br><font color='#FFFFFF'>+</font>";
-            UserInput = "0";
-        }
-        else {
-            if (UserInput.equals("0"))
-                UserInput = CalcInput;
-
-            else {
-                if (!UserInput.contains(".")){   //Check if input has decimal point
-                    if (UserInput.length()<5)
-                        UserInput = UserInput + CalcInput;
-                }
-                else {
-                    if (UserInput.length()-UserInput.indexOf(".")<3)  // Accept only two digits after decimal point
-                        UserInput = UserInput + CalcInput;
-
-                }
-
+                ActionTotal = 0.0;
+                MarkupStr = "";
+                ActionOutput = 0.0;
+                PayoutChange = false;
+                PayoutInput = "0.0";
+                input_section_refresh("0","0","",0.0);
+                return;
+            } else if (!CalcInput.equals(".") && !CalcInput.equals("MP")){
+                PayoutInput = PayoutInput + CalcInput;
             }
+            ActionOutput = Double.parseDouble(PayoutInput);
+            AdjustOutput("Update");
+        } else {
+            if (CalcInput.equals("BS")) {
+                if (UserInput.length() > 1 && !UserInput.equals("0"))
+                    UserInput = UserInput.substring(0, UserInput.length() - 1);
+                else
+                    UserInput = "0";
+            } else if (CalcInput.equals(".")) {
+                if (!UserInput.contains("."))
+                    UserInput = UserInput + CalcInput;
+            } else if (CalcInput.equals("C")) {
+                UserInput = "0";
+                ActionTotal = 0.0;
+                MarkupStr = "";
+            } else if (CalcInput.equals("MP")) {
+                ActionTotal += Double.parseDouble(UserInput);
+                MarkupStr += UserInput + "<br><font color='#167BFF'>+</font>";
+//              MarkupStr +=UserInput+"<br><font color='#FFFFFF'>+</font>";
+                UserInput = "0";
+            } else {
+                if (UserInput.equals("0"))
+                    UserInput = CalcInput;
+
+                else {
+                    if (!UserInput.contains(".")) {   //Check if input has decimal point
+                        if (UserInput.length() < 5)
+                            UserInput = UserInput + CalcInput;
+                    } else {
+                        if (UserInput.length() - UserInput.indexOf(".") < 3)  // Accept only two digits after decimal point
+                            UserInput = UserInput + CalcInput;
+
+                    }
+
+                }
+            }
+
+
+            //String tmp = "<font color=#cc0029>Total: $</font><font color=#ffcc00>zweite Farbe</font>";
+
+
+            String markup;
+            Double minput;
+
+
+            if (UserInput.equals("0")) {
+                markup = MarkupStr; //    minput = String.valueOf(ActionTotal);}
+            } else if (MarkupStr.equals(""))
+                markup = UserInput;
+            else
+                markup = MarkupStr + UserInput;
+
+            minput = ActionTotal + Double.parseDouble(UserInput);
+
+//          input_section_refresh(UserInput, Output(UserInput, ActionTotal).toString(), markup, minput.toString());
+
+            input_section_refresh(UserInput, Output(UserInput, ActionTotal).toString(), markup, minput);
         }
-
-
-        //String tmp = "<font color=#cc0029>Total: $</font><font color=#ffcc00>zweite Farbe</font>";
-
-
-        String markup;
-        Double minput;
-
-        if (UserInput.equals("0")) {
-            markup = MarkupStr; //    minput = String.valueOf(ActionTotal);}
-        }
-            else if (MarkupStr.equals(""))
-            markup = UserInput;
-         else
-            markup = MarkupStr + UserInput;
-
-        minput = ActionTotal + Double.parseDouble(UserInput);
-
-        input_section_refresh(UserInput, Output(UserInput, ActionTotal).toString(), markup, minput.toString());
-
-
     }
 
-    private void input_section_refresh(String s_input, String s_output, String s_markup, String s_total){
+    private void input_section_refresh(String s_input, String s_output, String s_markup, Double s_total){
 
 //        String outputColor;
+        DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
+//        DecimalFormat formatterdbl0 = new DecimalFormat("$#,##0.");
+        Double OutputToDouble = Double.parseDouble(s_output);
 
-        if (Double.parseDouble(s_output)>0)
-            s_output="<font color='yellow'>"+s_output+"</font>";
+
+        if (OutputToDouble>0)
+            s_output="<font color='yellow'>"+Double.valueOf(OutputToDouble).intValue()+"</font>";
         else
             s_output="";
 
@@ -654,7 +696,7 @@ public class MainActivity extends AppCompatActivity {
             s_markup="";
 //            s_total="";
         } else
-            s_markup=s_markup+"<br>------<br>Sum: "+s_total;
+            s_markup=s_markup+"<br>------<br>Sum: "+formatterdbl.format(s_total);
 
         txtInput.setText(s_input);
         txtOutput.setText(Html.fromHtml(s_output));
@@ -755,6 +797,8 @@ public class MainActivity extends AppCompatActivity {
         PayoutTotal=0.0;
         MoneyOnHand=0.0;
         ExpenceTotal=0.0;
+        DecimalFormat formatterdbl = new DecimalFormat("$#,##0.00");
+
 
 
 
@@ -778,7 +822,7 @@ public class MainActivity extends AppCompatActivity {
 
         strfloat = "Float<br><font color="+numcolor+"><b>"+appVariables.getFloatAmout()+"</b></font>";
         strjobs = "Jobs<br><font color="+numcolor+"><b>"+NumberOfJobs.intValue()+"</b></font>";
-        stramount = "Cheques<br><font color="+numcolor+"><b>"+ChequesTotal+"</b></font>";
+        stramount = "Cheques<br><font color="+numcolor+"><b>"+formatterdbl.format(ChequesTotal)+"</b></font>";
         strpayout = "Payout<br><font color="+numcolor+"><b>"+PayoutTotal.intValue()+"</b></font>";
         strexpences = "Expences<br><font color="+numcolor+"><b>"+ExpenceTotal+"</b></font>";
         strmoneyonhand = "On Hand<br><font color="+numcolor+"><b>"+MoneyOnHand+"</b></font>";
