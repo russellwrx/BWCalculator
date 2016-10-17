@@ -21,6 +21,9 @@
             </intent-filter>
 
         </activity>
+        <activity android:name="com.demo.russell.bwsecurity.Preferences"
+            android:label="Settings"
+            android:theme="@style/Preference"></activity>
     </application>
 
 </manifest>

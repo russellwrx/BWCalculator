@@ -1,5 +1,6 @@
 package com.demo.russell.bwsecurity;
 
+
 /**
  * Created by russell on 18/03/2016.
  */
@@ -9,6 +10,10 @@ public class AppStoredValus {
     private  Integer notes10=10;
     private Integer notes5=10;
     private Integer floatAmount = getFloatAmout();
+
+
+
+
 
 
 
@@ -56,5 +61,7 @@ public class AppStoredValus {
     private void makeTotal(){
         this.floatAmount=this.notes1k*1000+this.notes20*20+this.notes5*5+this.notes10*10;
     }
+
+
 }
 

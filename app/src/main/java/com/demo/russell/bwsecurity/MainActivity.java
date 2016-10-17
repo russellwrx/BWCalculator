@@ -1,17 +1,21 @@
 package com.demo.russell.bwsecurity;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.renderscript.ScriptGroup;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +37,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toast;
+//import android.widget.Toast;
 //import com.google.gson.Gson;
 
 //import com.demo.russell.bwsecurity.ApplicationVariables;
@@ -75,6 +79,18 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<SummaryItem> rowitem;
     UserAdapter adapter;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        appVariables.setNotes1k(Integer.parseInt(sPref.getString("thousands","30000")));
+        appVariables.setNotes20(Integer.parseInt(sPref.getString("twenty","20")));
+        appVariables.setNotes10(Integer.parseInt(sPref.getString("ten","10")));
+        appVariables.setNotes5(Integer.parseInt(sPref.getString("five","10")));
+        RefreshScreen();
+//        Toast toast = Toast.makeText(getApplicationContext(), "ON Create",Toast.LENGTH_SHORT);
+//        toast.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setAdapter(adapter);
 
         RefreshScreen();
+
     }
 
 
@@ -218,72 +235,81 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener FloatAdjust = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-                String messageConfirm="";
-                if (!UserInput.equals("0")) {
 
-                    if (UserInput.indexOf(".")>0&&UserInput.length()!=UserInput.indexOf(".")){
-                        Integer flag = Integer.parseInt(UserInput.substring(UserInput.indexOf(".")+1));
-                        Integer value = Integer.parseInt(UserInput.substring(0,UserInput.indexOf(".")));
+            startActivity(new Intent(MainActivity.this, Preferences.class));
 
-                        switch (flag){
-                            case 2:
-                                appVariables.setNotes20(value);
-                                messageConfirm="Set number of $20 notes to: "+value;
-                                break;
-                            case 20:
-                                appVariables.setNotes20(value);
-                                messageConfirm="Set number of $20 notes to: "+value;
-                                break;
-                            case 5:
-                                appVariables.setNotes5(value);
-                                messageConfirm="Set number of $5 notes to: "+value;
-                                break;
-                            case 1:
-                                appVariables.setNotes10(value);
-                                messageConfirm="Set number of $10 notes to: "+value;
-                                break;
-                            case 10:
-                                appVariables.setNotes10(value);
-                                messageConfirm="Set number of $10 notes to: "+value;
-                                break;
-                            default:
-                                break;
-                        }
+//                String messageConfirm="";
+//                if (!UserInput.equals("0")) {
+//
+//                    if (UserInput.indexOf(".")>0&&UserInput.length()!=UserInput.indexOf(".")){
+//                        Integer flag = Integer.parseInt(UserInput.substring(UserInput.indexOf(".")+1));
+//                        Integer value = Integer.parseInt(UserInput.substring(0,UserInput.indexOf(".")));
+//
+//                        switch (flag){
+//                            case 2:
+//                                appVariables.setNotes20(value);
+//                                messageConfirm="Set number of $20 notes to: "+value;
+//                                break;
+//                            case 20:
+//                                appVariables.setNotes20(value);
+//                                messageConfirm="Set number of $20 notes to: "+value;
+//                                break;
+//                            case 5:
+//                                appVariables.setNotes5(value);
+//                                messageConfirm="Set number of $5 notes to: "+value;
+//                                break;
+//                            case 1:
+//                                appVariables.setNotes10(value);
+//                                messageConfirm="Set number of $10 notes to: "+value;
+//                                break;
+//                            case 10:
+//                                appVariables.setNotes10(value);
+//                                messageConfirm="Set number of $10 notes to: "+value;
+//                                break;
+//                            case 9:
+//                                startActivity(new Intent(MainActivity.this,Preferences.class));
+//
+//                                return;
+//                                //break;
+//                            default:
+//                                break;
+//                        }
+//
+//                    } else {
+//                        appVariables.setNotes1k(Integer.parseInt(UserInput));
+//                        messageConfirm="Set number of $1000  to: "+UserInput;
+//                    }
+//
+//
+//
+//
+//                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+//                    builder
+//                            .setTitle("Adjust Starting Float")
+//                            .setMessage(messageConfirm)
+//                            .setIcon(android.R.drawable.ic_dialog_info)
+//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                            //        FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
+//
+//                                    applicationVariables.saveData(v.getContext(), JobRows_array, appVariables);
+//                                    RefreshScreen();
+//                                }
+//                            })
+//                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//           //                         Log.d("FloaAadjust:",UserInput.substring(UserInput.indexOf(".")+1)+"");
+//                                }
+//                            })
+//                            .show();
+//        }
 
-                    } else {
-                        appVariables.setNotes1k(Integer.parseInt(UserInput));
-                        messageConfirm="Set number of $1000  to: "+UserInput;
-                    }
 
 
 
 
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder
-                            .setTitle("Adjust Starting Float")
-                            .setMessage(messageConfirm)
-                            .setIcon(android.R.drawable.ic_dialog_info)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                            //        FloatAmount = Double.parseDouble(UserInput) * 1000 + 550;
-
-                                    applicationVariables.saveData(v.getContext(), JobRows_array, appVariables);
-                                    RefreshScreen();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-           //                         Log.d("FloaAadjust:",UserInput.substring(UserInput.indexOf(".")+1)+"");
-                                }
-                            })
-                            .show();
-
-
-
-
-                }
         }
     };
 
@@ -307,10 +333,16 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 JobRows_array.clear();
                                 //FloatAmount=30550.0;
-                                appVariables.setNotes1k(30);
-                                appVariables.setNotes20(20);
-                                appVariables.setNotes10(10);
-                                appVariables.setNotes5(10);
+                                SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
+                                appVariables.setNotes1k(Integer.parseInt(sPref.getString("thousands","30000")));
+                                appVariables.setNotes20(Integer.parseInt(sPref.getString("twenty","20")));
+                                appVariables.setNotes10(Integer.parseInt(sPref.getString("ten","10")));
+                                appVariables.setNotes5(Integer.parseInt(sPref.getString("five","10")));
+                                //appVariables.setNotes1k(30);
+                                //appVariables.setNotes20(20);
+                                //appVariables.setNotes10(10);
+                                //appVariables.setNotes5(10);
                                 applicationVariables.saveData(v.getContext(), JobRows_array,appVariables);
                                 RefreshScreen();
                             }
