@@ -15,7 +15,7 @@
         colorAccent Highlights -->
         <item name="colorPrimary">@color/mainbackground</item>
         <item name="colorPrimaryDark">@color/mainbackground</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/gridWarning</item>
         <item name="android:textColor">@color/gridNormal</item>
         <item name="android:textColorSecondary">@color/LightGrey</item>
     </style>

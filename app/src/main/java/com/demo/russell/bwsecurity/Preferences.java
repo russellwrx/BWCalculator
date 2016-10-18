@@ -38,6 +38,7 @@ public class Preferences  extends AppCompatActivity {
         public void onCreate(final Bundle savedInstanceState)
         {
             super.onCreate(savedInstanceState);
+
             addPreferencesFromResource(R.xml.settings_screen);
         }
     }

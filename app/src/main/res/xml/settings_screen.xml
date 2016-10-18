@@ -3,7 +3,7 @@
     >
 
 <PreferenceCategory
-    android:title="Float Adjust"
+    android:title="FLOAT ADJUST"
     android:textColor="#00FF00">
 
     <EditTextPreference android:title="$1000 Bundles"
