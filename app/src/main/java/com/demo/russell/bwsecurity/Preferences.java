@@ -5,12 +5,17 @@ import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+
+import static android.R.attr.key;
 
 /**
  * Created by russell on 16/10/2016.
@@ -29,7 +34,7 @@ public class Preferences  extends AppCompatActivity {
         fragmentTransaction.add(android.R.id.content, myPreferenceFragment, "SETTINGS_FRAGMENT");
         fragmentTransaction.commit();
 
-        }
+    }
 
 
     public static class MyPreferenceFragment extends PreferenceFragment
@@ -40,6 +45,10 @@ public class Preferences  extends AppCompatActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.settings_screen);
+
+
+
+            //
         }
     }
 }
