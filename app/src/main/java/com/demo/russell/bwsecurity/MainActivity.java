@@ -393,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
     private void AddRow() {
 
         //Log.d("test: ",ActionOutput+" "+ActionTotal);
-        if ((ActionTotal+Double.parseDouble(UserInput))!=0 && ActionOutput>0) {
+        if ((ActionTotal+Double.parseDouble(UserInput))!=0 && (ActionOutput>0 || PayoutChange)) {
             //Log.d("test: ",ActionOutput+"");
             Row currentRow = new Row();
             currentRow.setAmount(ActionTotal + Double.parseDouble(UserInput));
