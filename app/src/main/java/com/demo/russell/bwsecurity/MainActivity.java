@@ -727,6 +727,19 @@ public class MainActivity extends AppCompatActivity {
 
         double value = Double.parseDouble(CalcInput)+actionTotal;
         double comparevalue = value;
+
+        SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        Integer range1 = Integer.parseInt(sPref.getString("rangeAmount1","6000"));
+        Integer range2 = Integer.parseInt(sPref.getString("rangeAmount2","12000"));
+        Integer range3 = Integer.parseInt(sPref.getString("rangeAmount3","15000"));
+
+        Integer rate1 = Integer.parseInt(sPref.getString("rate1","5"));
+        Integer rate2 = Integer.parseInt(sPref.getString("rate2","4"));
+        Integer rate3 = Integer.parseInt(sPref.getString("rate3","3"));
+
+
+
+
         //
         if (value < 100.0) {
             btnInc.setEnabled(false);
@@ -734,10 +747,20 @@ public class MainActivity extends AppCompatActivity {
             ActionOutput=0.0;
             return 0.0;
         }
-        if (value > 6000)
-            value = (value * .96) - 60;
-         else
-            value = (value * .95) - 60;
+
+
+        if (value>=range2)
+            value = ((value * (100-rate3)/100))-60;
+        else if (value>=range1)
+            value = ((value * (100-rate2)/100))-60;
+        else
+            value = ((value * (100-rate1)/100))-60;
+
+//        if (value > 6000)
+//            value = (value * .96) - 60;
+//         else
+//            value = (value * .95) - 60;
+
         value = round(value / 5) * 5;
 
         if ((comparevalue-value)<90)

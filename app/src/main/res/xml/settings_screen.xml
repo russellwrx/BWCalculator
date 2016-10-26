@@ -4,7 +4,8 @@
 
 <PreferenceCategory
     android:title="FLOAT ADJUST"
-    android:textColor="#00FF00">
+    android:textColor="#00FF00"
+    android:layout="@layout/preference_category">
 
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$1000 Bundles"
     android:key="thousands"
@@ -27,5 +28,41 @@
         android:numeric="integer">
     </com.demo.russell.bwsecurity.EditTextPreference>
 </PreferenceCategory>
+    <PreferenceCategory android:title="Range One"
+        android:layout="@layout/preference_category">
+        <com.demo.russell.bwsecurity.EditTextPreference android:title="Amount $"
+            android:key="rangeAmount1"
+            android:summary=""
+            android:defaultValue="6000"></com.demo.russell.bwsecurity.EditTextPreference>
+        <com.demo.russell.bwsecurity.EditTextPreference android:title="Rate %"
+            android:key="rate1"
+            android:defaultValue="5"
+            android:summary=""></com.demo.russell.bwsecurity.EditTextPreference>
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Range Two"
+        android:layout="@layout/preference_category">
+        <com.demo.russell.bwsecurity.EditTextPreference android:title="Amount $"
+            android:key="rangeAmount2"
+            android:summary=""
+            android:defaultValue="12000"></com.demo.russell.bwsecurity.EditTextPreference>
+        <com.demo.russell.bwsecurity.EditTextPreference android:title="Rate %"
+            android:key="rate2"
+            android:defaultValue="4"
+            android:summary=""></com.demo.russell.bwsecurity.EditTextPreference>
+
+        ></PreferenceCategory>
+    <PreferenceCategory android:title="Range Tree"
+        android:layout="@layout/preference_category">
+        <com.demo.russell.bwsecurity.EditTextPreference android:title="Amount $"
+            android:key="rangeAmount3"
+            android:summary=""
+            android:defaultValue="14000"></com.demo.russell.bwsecurity.EditTextPreference>
+        <com.demo.russell.bwsecurity.EditTextPreference android:title="Rate %"
+            android:key="rate3"
+            android:defaultValue="3"
+            android:summary=""></com.demo.russell.bwsecurity.EditTextPreference>
+
+        ></PreferenceCategory>
 
 </PreferenceScreen>
