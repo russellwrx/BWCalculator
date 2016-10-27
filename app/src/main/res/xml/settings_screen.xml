@@ -8,9 +8,9 @@
     android:layout="@layout/preference_category">
 
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$1000 Bundles"
-    android:key="thousands"
-    android:summary="Number of thousands"
-    android:numeric="integer">
+        android:key="thousands"
+        android:summary="Number of thousands"
+        android:numeric="integer">
     </com.demo.russell.bwsecurity.EditTextPreference>
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$20 Notes"
         android:key="twenty"
@@ -28,41 +28,41 @@
         android:numeric="integer">
     </com.demo.russell.bwsecurity.EditTextPreference>
 </PreferenceCategory>
-    <PreferenceCategory android:title="Range One"
+    <PreferenceCategory android:title="Range 1"
         android:layout="@layout/preference_category">
         <com.demo.russell.bwsecurity.EditTextPreference android:title="Amount $"
             android:key="rangeAmount1"
             android:summary=""
-            android:defaultValue="6000"></com.demo.russell.bwsecurity.EditTextPreference>
+            android:defaultValue="6000"
+            android:numeric="integer"></com.demo.russell.bwsecurity.EditTextPreference>
         <com.demo.russell.bwsecurity.EditTextPreference android:title="Rate %"
             android:key="rate1"
             android:defaultValue="5"
-            android:summary=""></com.demo.russell.bwsecurity.EditTextPreference>
+            android:summary=""
+            android:numeric="integer"></com.demo.russell.bwsecurity.EditTextPreference>
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="Range Two"
+    <PreferenceCategory android:title="Range 2"
         android:layout="@layout/preference_category">
         <com.demo.russell.bwsecurity.EditTextPreference android:title="Amount $"
             android:key="rangeAmount2"
             android:summary=""
-            android:defaultValue="12000"></com.demo.russell.bwsecurity.EditTextPreference>
+            android:defaultValue="15000"
+            android:numeric="integer"></com.demo.russell.bwsecurity.EditTextPreference>
         <com.demo.russell.bwsecurity.EditTextPreference android:title="Rate %"
             android:key="rate2"
             android:defaultValue="4"
-            android:summary=""></com.demo.russell.bwsecurity.EditTextPreference>
-
-        ></PreferenceCategory>
-    <PreferenceCategory android:title="Range Tree"
-        android:layout="@layout/preference_category">
-        <com.demo.russell.bwsecurity.EditTextPreference android:title="Amount $"
-            android:key="rangeAmount3"
             android:summary=""
-            android:defaultValue="14000"></com.demo.russell.bwsecurity.EditTextPreference>
+            android:numeric="integer"></com.demo.russell.bwsecurity.EditTextPreference>
+
+        </PreferenceCategory>
+    <PreferenceCategory android:title="Range 3"
+        android:layout="@layout/preference_category">
         <com.demo.russell.bwsecurity.EditTextPreference android:title="Rate %"
             android:key="rate3"
             android:defaultValue="3"
-            android:summary=""></com.demo.russell.bwsecurity.EditTextPreference>
-
-        ></PreferenceCategory>
+            android:summary=""
+            android:numeric="integer"></com.demo.russell.bwsecurity.EditTextPreference>
+        </PreferenceCategory>
 
 </PreferenceScreen>

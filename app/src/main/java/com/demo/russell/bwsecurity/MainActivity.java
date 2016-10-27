@@ -485,38 +485,46 @@ public class MainActivity extends AppCompatActivity {
 //
 
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
+
+
             Integer rowColor = 0;
             tr.setId(count);
+            Double warningDiff=0.0;
+
             if (!row.getWarinig())
                 if (row.getExpence()!=0)
                     rowColor = (getResources().getColor(R.color.gridExpense)); //Darkerblue
                 else
                     rowColor = (getResources().getColor(R.color.gridNormal));  //Blue
-            else
-                rowColor = (getResources().getColor(R.color.gridWarning));  //Yellow
+            else {
 
-    //        tr.setBackgroundColor(Color.DKGRAY);
+                warningDiff = Output("0",row.getAmount())-row.getPayout();
+                rowColor = (getResources().getColor(R.color.gridWarning));  //Yellow
+            }
             tr.setBackgroundColor(ContextCompat.getColor(this,R.color.mainbackground));
-            lp.setMargins(0, 0, 50, 0);
-            tr.setLayoutParams(lp);
+
+            //=============================
 
             TextView labelTV = new TextView(this);
-            labelTV.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT));
+//            labelTV.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT));
+//            lp.setMargins(20,0,0,0); // left top right bottom
 
             labelTV.setId(10 + count);
             labelTV.setText(String.format("$%8.2f", row.getAmount()));
-
             labelTV.setTextColor(rowColor);
-            labelTV.setGravity(Gravity.RIGHT);
             labelTV.setTextSize(16);
+            lp.weight=4;
 
-            //lp.setMargins(50, 50, 60, 50);
-            //labelTV.setLayoutParams(lp);
-            tr.addView(labelTV);
-
-            //valueTV.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+            labelTV.setGravity(Gravity.RIGHT);
 
 
+            labelTV.setLayoutParams(lp);
+            tr.addView(labelTV,lp);
+
+            //===================
+
+            lp.setMargins(0,0,0,0);
+            lp.weight=3;
             TextView valueTV = new TextView(this);
             valueTV.setId(20 + count);
             if (row.getExpence()!=0)
@@ -527,20 +535,39 @@ public class MainActivity extends AppCompatActivity {
             valueTV.setTextColor(rowColor);
             valueTV.setGravity(Gravity.RIGHT);
             valueTV.setTextSize(16);
-            lp.setMargins(60, 0, 0, 0);
-            valueTV.setLayoutParams(lp);
+ //           valueTV.setLayoutParams(lp);
+            tr.addView(valueTV,lp);
 
+            //===================
+
+            TextView valueWar = new TextView(this);
+            valueWar.setId(20 + count);
+
+//            if (row.getExpence()!=0)
+//                valueWar.setText("$ "+row.getExpence());
+//            else
+//                valueWar.setText("$ "+row.getPayoutString());
+
+            valueWar.setText("\u25b2"+" "+warningDiff.toString());
+//            valueWar.setText("\u25bc");
+            valueWar.setTextColor(rowColor);
+            valueWar.setGravity(Gravity.RIGHT);
+            valueWar.setTextSize(16);
+
+            lp.weight=1;
+            valueWar.setLayoutParams(lp);
 
             tr.setGravity(Gravity.CENTER);
-            tr.addView(valueTV);
+            tr.addView(valueWar,lp);
 
+            //=====================
 
 
 
             // Add the TableRow to the TableLayout
-            tl.addView(tr, new TableRow.LayoutParams(
-                    TableRow.LayoutParams.FILL_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT));
+//            TableRow.LayoutParams lptr = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
+//            lptr.setMargins(0,100,0,0);
+            tl.addView(tr,new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT));
 
             count++;
         }
@@ -730,8 +757,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         Integer range1 = Integer.parseInt(sPref.getString("rangeAmount1","6000"));
-        Integer range2 = Integer.parseInt(sPref.getString("rangeAmount2","12000"));
-        Integer range3 = Integer.parseInt(sPref.getString("rangeAmount3","15000"));
+        Integer range2 = Integer.parseInt(sPref.getString("rangeAmount2","15000"));
 
         Integer rate1 = Integer.parseInt(sPref.getString("rate1","5"));
         Integer rate2 = Integer.parseInt(sPref.getString("rate2","4"));
@@ -749,23 +775,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        if (value>=range2)
+        if (value>=range2) // more then 14000 at 3%
             value = ((value * (100-rate3)/100))-60;
-        else if (value>=range1)
+        else if (value>=range1) // more then 12000
             value = ((value * (100-rate2)/100))-60;
         else
             value = ((value * (100-rate1)/100))-60;
-
-//        if (value > 6000)
-//            value = (value * .96) - 60;
-//         else
-//            value = (value * .95) - 60;
 
         value = round(value / 5) * 5;
 
         if ((comparevalue-value)<90)
             value = floor((comparevalue - 90.0) / 5)*5;
-        Log.d("Debug: ", ""+ceil((comparevalue - 90.0) / 5));
+//        Log.d("Debug: ", ""+ceil((comparevalue - 90.0) / 5));
         ActionOutput = value;
         btnInc.setEnabled(true);
         btnDec.setEnabled(true);

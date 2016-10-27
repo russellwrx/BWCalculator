@@ -28,8 +28,7 @@ public class EditTextPreference extends android.preference.EditTextPreference {
     @Override
     protected void onBindView(View view){
         super.onBindView(view);
-//        TextView textTitle = (TextView) view.findViewById(android.R.id.title);
-//        textTitle.setBackgroundColor(Color.BLUE);
+
         textValue = (TextView) view.findViewById(R.id.preference_value);
         if (textValue!=null)
             textValue.setText(getText());
