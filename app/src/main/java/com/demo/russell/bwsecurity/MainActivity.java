@@ -512,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
             labelTV.setId(10 + count);
             labelTV.setText(String.format("$%8.2f", row.getAmount()));
             labelTV.setTextColor(rowColor);
-            labelTV.setTextSize(16);
+            labelTV.setTextSize(14);
             lp.weight=4;
 
             labelTV.setGravity(Gravity.RIGHT);
@@ -534,7 +534,7 @@ public class MainActivity extends AppCompatActivity {
 
             valueTV.setTextColor(rowColor);
             valueTV.setGravity(Gravity.RIGHT);
-            valueTV.setTextSize(16);
+            valueTV.setTextSize(14);
  //           valueTV.setLayoutParams(lp);
             tr.addView(valueTV,lp);
 
@@ -547,12 +547,16 @@ public class MainActivity extends AppCompatActivity {
 //                valueWar.setText("$ "+row.getExpence());
 //            else
 //                valueWar.setText("$ "+row.getPayoutString());
-
-            valueWar.setText("\u25b2"+" "+warningDiff.toString());
+            if (warningDiff>0.0)
+                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#ffff00'>"+"\u25bc"+"</font>"));
+            else if (warningDiff==0.0)
+                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#00ff50'>"+"\u2713"+"</font>"));
+            else
+                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#ff2a00'>"+"\u25b2"+"</font>"));
 //            valueWar.setText("\u25bc");
             valueWar.setTextColor(rowColor);
             valueWar.setGravity(Gravity.RIGHT);
-            valueWar.setTextSize(16);
+            valueWar.setTextSize(14);
 
             lp.weight=1;
             valueWar.setLayoutParams(lp);
