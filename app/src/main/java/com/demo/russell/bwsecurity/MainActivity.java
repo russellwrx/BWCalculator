@@ -499,7 +499,8 @@ public class MainActivity extends AppCompatActivity {
             else {
 
                 warningDiff = Output("0",row.getAmount())-row.getPayout();
-                rowColor = (getResources().getColor(R.color.gridWarning));  //Yellow
+//                rowColor = (getResources().getColor(R.color.gridWarning));  //Yellow
+                rowColor = (getResources().getColor(R.color.gridNormal));  //Yellow
             }
             tr.setBackgroundColor(ContextCompat.getColor(this,R.color.mainbackground));
 
@@ -548,15 +549,19 @@ public class MainActivity extends AppCompatActivity {
 //            else
 //                valueWar.setText("$ "+row.getPayoutString());
             if (warningDiff>0.0)
-                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#ffff00'>"+"\u25bc"+"</font>"));
+//                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#ffff00'>"+"\u25bc"+"</font>"));
+                valueWar.setText(Html.fromHtml("<font color='#ffff00'>"+warningDiff.intValue()+"</font>"));
             else if (warningDiff==0.0)
-                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#00ff50'>"+"\u2713"+"</font>"));
+                valueWar.setText(Html.fromHtml("<font color='#00ff50'>"+"\u2713"+"</font>"));
+//                valueWar.setText(Html.fromHtml("<font color='#00ff50'>"+warningDiff.intValue()+"</font>"));
             else
-                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#ff2a00'>"+"\u25b2"+"</font>"));
+//                valueWar.setText(Html.fromHtml(warningDiff.intValue()+" "+"<font color='#ff2a00'>"+"\u25b2"+"</font>"));
+                valueWar.setText(Html.fromHtml("<font color='#ff3b00'>"+warningDiff.intValue()+"</font>"));
 //            valueWar.setText("\u25bc");
             valueWar.setTextColor(rowColor);
-            valueWar.setGravity(Gravity.RIGHT);
-            valueWar.setTextSize(14);
+            valueWar.setGravity(Gravity.CENTER_VERTICAL);
+            valueWar.setGravity(Gravity.CENTER);
+            valueWar.setTextSize(10);
 
             lp.weight=1;
             valueWar.setLayoutParams(lp);
