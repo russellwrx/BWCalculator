@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -692,9 +693,15 @@ public class MainActivity extends AppCompatActivity {
 //            s_total="";
         } else
             s_markup=s_markup+"<br>------<br>Sum: "+formatterdbl.format(s_total);
+        if (s_input.indexOf(".") > 0  && s_input.indexOf(".") < s_input.length()-1)
+            s_input = s_input.split("\\.")[0]+"."+"<font color='grey'><small><small>"+s_input.split("\\.")[1] + "</small></small></font>";
+//        Log.d("RRR:",s_input.indexOf(".")+ " " + s_input.length());
 
-        txtInput.setText(s_input);
+
+        txtInput.setText(Html.fromHtml(s_input));
         txtOutput.setText(Html.fromHtml(s_output));
+
+
         txtMarkup.setText(Html.fromHtml(s_markup));
 //        txtMinput.setText(Html.fromHtml(s_total));
     }
