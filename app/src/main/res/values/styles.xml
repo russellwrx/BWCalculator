@@ -18,8 +18,14 @@
         <item name="colorAccent">@color/gridWarning</item>
         <item name="android:textColor">@color/gridNormal</item>
         <item name="android:textColorSecondary">@color/LightGrey</item>
+        <item name="buttonStyle">@style/LightButton</item>
     </style>
 
+    <style name="LightButton" parent="android:Widget.Button">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@android:drawable/btn_default</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

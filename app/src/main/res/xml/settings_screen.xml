@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+
     >
 
 <PreferenceCategory
     android:title="FLOAT ADJUST"
     android:textColor="#00FF00"
-    android:layout="@layout/preference_category">
+    android:layout="@layout/preference_category"
+    >
 
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$1000 Bundles"
         android:key="thousands"
         android:summary="Number of thousands"
-        android:numeric="integer">
+        android:numeric="integer"
+        android:inputType="number"
+        android:defaultValue="35"
+        
+        >
     </com.demo.russell.bwsecurity.EditTextPreference>
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$20 Notes"
         android:key="twenty"
         android:summary="Number of twenty dollar notes"
-        android:numeric="integer">
+        android:numeric="integer"
+        android:defaultValue="20">
     </com.demo.russell.bwsecurity.EditTextPreference>
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$10 Notes"
         android:key="ten"
         android:summary="Number of ten dollar notes"
-        android:numeric="integer">
+        android:numeric="integer"
+        android:defaultValue="10">
     </com.demo.russell.bwsecurity.EditTextPreference>
     <com.demo.russell.bwsecurity.EditTextPreference android:title="$5 Notes"
         android:key="five"
         android:summary="Number of five dollar notes"
-        android:numeric="integer">
+        android:numeric="integer"
+        android:defaultValue="10">
     </com.demo.russell.bwsecurity.EditTextPreference>
 </PreferenceCategory>
     <PreferenceCategory android:title="Range 1"

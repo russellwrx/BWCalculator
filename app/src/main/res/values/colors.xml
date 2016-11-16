@@ -9,5 +9,6 @@
     <color name="gridWarning">#69d5ff</color>
     <color name="gridExpense">#ffe86b</color>
     <color name="background_plus_button">#3d5e3a</color>
+    <color name="black">#000000</color>
     <color name="mainbackground">@color/material_grey_900</color>
 </resources>
